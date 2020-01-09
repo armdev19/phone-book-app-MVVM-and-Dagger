@@ -20,12 +20,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 class ContactsAdapter (private val context: Context, private val mContactsList: ArrayList<ContactsModel> = ArrayList())
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun setupContacts(contactsList: ArrayList<ContactsModel>) {
-        mContactsList.clear()
-        mContactsList.addAll(contactsList)
-    }
-
-
     fun addItem(contactsModel: ContactsModel) {
         mContactsList.add(contactsModel)
         notifyDataSetChanged()

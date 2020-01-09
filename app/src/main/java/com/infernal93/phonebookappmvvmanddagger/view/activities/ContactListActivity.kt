@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +20,7 @@ import kotlinx.android.synthetic.main.contact_list_main.*
 import javax.inject.Inject
 
 class ContactListActivity : AppCompatActivity() {
+    private val TAG = "ContactListActivity"
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -44,8 +44,8 @@ class ContactListActivity : AppCompatActivity() {
         toolbar.title = getString(R.string.contacts_toolbar_title)
 
         addNewContactBtn.setOnClickListener {
-//            val intent = Intent(this@ContactListActivity, )
-//            startActivity(intent)
+            val intent = Intent(this@ContactListActivity, DetailsActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -58,7 +58,7 @@ class ContactListActivity : AppCompatActivity() {
             recycler_contacts.layoutManager =
                 LinearLayoutManager(applicationContext, OrientationHelper.VERTICAL, false)
             recycler_contacts.adapter = mAdapter
-            recycler_contacts.setHasFixedSize(true)
+            recycler_contacts.setHasFixedSize(false)
 
             mAdapter.sortByName()
 
