@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.DetailsActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_details_info"
+        style="@style/Toolbar"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/details_image"
+        android:layout_width="@dimen/civ_size"
+        android:layout_height="@dimen/civ_size"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_person_placeholder"
+        app:civ_border_width="5dp"
+        app:civ_border_color="@color/colorPrimary"
+        android:layout_below="@id/toolbar_details_info"/>
+
+    <TextView
+        android:id="@+id/details_first_name"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_inputs"
+        android:hint="First Name"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="3dp"
+        android:textColorHint="@color/dark_gray"
+        android:layout_below="@id/details_image"/>
+
+    <TextView
+        android:id="@+id/details_last_name"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_inputs"
+        android:hint="Last Name"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="3dp"
+        android:textColorHint="@color/dark_gray"
+        android:layout_below="@id/details_first_name"/>
+
+    <TextView
+        android:id="@+id/details_phone"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_inputs"
+        android:hint="+37493055062"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="3dp"
+        android:textColorHint="@color/dark_gray"
+        android:layout_below="@id/details_last_name"/>
+
+    <TextView
+        android:id="@+id/details_email"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_inputs"
+        android:hint="test@gmail.com"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="3dp"
+        android:textColorHint="@color/dark_gray"
+        android:layout_below="@id/details_phone"/>
+
+    <TextView
+        android:id="@+id/details_notes"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_inputs"
+        android:hint="Notes Hint"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="3dp"
+        android:textColorHint="@color/dark_gray"
+        android:layout_below="@id/details_email"/>
+
+</RelativeLayout>
