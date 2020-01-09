@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">PhoneBook app MVVM and Dagger</string>
+    <string name="login_welcome_text">List app \n with MVVM</string>
+    <string name="login_btn_text">Log In</string>
+    <string name="category_search_hint">Enter your query here</string>
+    <string name="category_no_items_error">Error connecting to server. Check the status of your internet</string>
+    <string name="login_error">Login or password entered incorrectly. Try again</string>
+    <string name="btn_filter_text">Filter</string>
+    <string name="btn_sort_text">Sort</string>
+    <string name="alert_dialog_title">Sorted list</string>
+    <string name="alert_dialog_message">To sort the list by:</string>
+    <string name="alert_dialog_first_button">By Name</string>
+    <string name="alert_dialog_second_button">By Price</string>
+    <string name="email_text">Email...</string>
+    <string name="password_text">Password...</string>
+    <string name="registration_btn_text">Registration</string>
+    <string name="login_and_password">login: test1@gmail.com password: 123456</string>
+    <string name="login_success">Log In Success</string>
+    <string name="login_or_password_empty">Please write your email and password</string>
+    <string name="invalid_email_or_password">Invalid email or password. Try again</string>
+    <string name="log_out_hint">Log Out</string>
+</resources>
