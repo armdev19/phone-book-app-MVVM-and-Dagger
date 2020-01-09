@@ -26,39 +26,39 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideOkHttp(): OkHttpClient {
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(object : Interceptor {
+            @Throws(IOException::class)
+            override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+                val original = chain.request()
+                val originalHttpUrl = original.url
+                val url = originalHttpUrl.newBuilder()
+                    //.addQueryParameter("apikey", KEY)
+                    .build()
+                val requestBuilder = original.newBuilder()
+                    .url(url)
+                    .header("apikey", KEY)
+                val request = requestBuilder.build()
+                return chain.proceed(request)
+            }
+        })
+        // logging interceptor
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        httpClient.addInterceptor(logging)
+        return httpClient.build()
+    }
 
-        @Provides
-        @Singleton
-        fun createOkHttpClient(): OkHttpClient {
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor(object : Interceptor {
-                @Throws(IOException::class)
-                override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-                    val original = chain.request()
-                    val originalHttpUrl = original.url
-                    val url = originalHttpUrl.newBuilder()
-                        //.addQueryParameter("apikey", KEY)
-                        .build()
-                    val requestBuilder = original.newBuilder()
-                        .url(url)
-                        .header("apikey", KEY)
-                    val request = requestBuilder.build()
-                    return chain.proceed(request)
-                }
-            })
-            // logging interceptor
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            httpClient.addInterceptor(logging)
-            return httpClient.build()
-        }
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(provideOkHttp())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(createOkHttpClient())
             .build()
     }
 

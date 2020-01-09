@@ -16,10 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activities.AddContactActivity"></activity>
+        <activity android:name=".view.activities.AddContactActivity">
+
+        </activity>
+
         <activity
             android:name=".view.activities.DetailsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <activity
             android:name=".view.activities.ContactListActivity"
             android:screenOrientation="portrait">
@@ -29,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

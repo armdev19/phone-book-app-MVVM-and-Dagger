@@ -1,7 +1,6 @@
 package com.infernal93.phonebookappmvvmanddagger.remote
 
 import com.infernal93.phonebookappmvvmanddagger.model.ContactsModel
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 
@@ -12,5 +11,4 @@ interface ContactsService {
 
     @GET("contacts")
     fun getContactModel(): Single<List<ContactsModel>>
-
 }

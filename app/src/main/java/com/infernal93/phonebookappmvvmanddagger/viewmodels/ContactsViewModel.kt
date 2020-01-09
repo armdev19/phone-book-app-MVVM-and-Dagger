@@ -19,31 +19,22 @@ class ContactsViewModel @Inject constructor(private val contactsRepository: Cont
     ViewModel() {
 
     var mutableLiveData = MutableLiveData<List<ContactsModel>>()
-
     private val disposable = CompositeDisposable()
 
 
     fun getContactMutableLiveData(): MutableLiveData<List<ContactsModel>> {
 
-        loadData()
-        return mutableLiveData
-    }
-
-    fun loadData() {
         disposable.add(contactsRepository.modelSingle()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<List<ContactsModel>>() {
                 override fun onSuccess(t: List<ContactsModel>) {
-                getContactMutableLiveData().value = t
+                    mutableLiveData.value = t
                 }
-
                 override fun onError(e: Throwable) {
-
                 }
-
-            })
-        )
-
+            }))
+        return mutableLiveData
     }
+
 }

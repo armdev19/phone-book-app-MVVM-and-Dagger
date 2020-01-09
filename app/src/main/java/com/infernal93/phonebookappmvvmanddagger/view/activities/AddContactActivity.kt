@@ -11,7 +11,6 @@ import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.model.ContactsModel
 import com.infernal93.phonebookappmvvmanddagger.utils.shortToast
 import com.theartofdev.edmodo.cropper.CropImage
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_add_contact.*
 
 class AddContactActivity : AppCompatActivity() {
