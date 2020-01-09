@@ -1,7 +1,7 @@
 package com.infernal93.phonebookappmvvmanddagger.di.modules
 
 import android.content.Context
-import com.infernal93.phonebookappmvvmanddagger.App
+import com.infernal93.phonebookappmvvmanddagger.utils.App
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
