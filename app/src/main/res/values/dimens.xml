@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1da1f2</color>
-    <color name="colorPrimaryDark">#1da1f2</color>
-    <color name="colorAccent">#E6E6E6</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#E8EBEC</color>
-    <color name="dark_gray">#253A4B</color>
+    <dimen name="linear_margin_size">32dp</dimen>
+    <dimen name="login_margin_top">16dp</dimen>
+    <dimen name="login_btns_text_size">20sp</dimen>
+    <dimen name="cpv_size">40dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
+    <dimen name="cell_category_margin">10dp</dimen>
+    <dimen name="search_size">50dp</dimen>
+    <dimen name="civ_size">150dp</dimen>
+    <dimen name="edit_text_width">300dp</dimen>
+    <dimen name="edit_text_height">50dp</dimen>
 </resources>
