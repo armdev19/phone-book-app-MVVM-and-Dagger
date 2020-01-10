@@ -2,6 +2,7 @@ package com.infernal93.phonebookappmvvmanddagger.di.components
 
 import com.infernal93.phonebookappmvvmanddagger.di.modules.ContextModule
 import com.infernal93.phonebookappmvvmanddagger.di.modules.NetworkModule
+import com.infernal93.phonebookappmvvmanddagger.view.activities.AddContactActivity
 import com.infernal93.phonebookappmvvmanddagger.view.activities.ContactListActivity
 import dagger.Component
 import javax.inject.Singleton

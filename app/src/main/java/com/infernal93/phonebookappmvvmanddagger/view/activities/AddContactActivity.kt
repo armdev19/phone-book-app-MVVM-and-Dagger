@@ -7,14 +7,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.model.ContactsModel
 import com.infernal93.phonebookappmvvmanddagger.utils.shortToast
+import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactsViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_add_contact.*
+import javax.inject.Inject
 
 class AddContactActivity : AppCompatActivity() {
     private val TAG = "AddContactActivity"
+
 
     companion object {
         const val EXTRA_FIRST_NAME = "com.infernal93.EXTRA_FIRST_NAME"
@@ -24,6 +28,10 @@ class AddContactActivity : AppCompatActivity() {
         const val EXTRA_NOTES = "com.infernal93.EXTRA_NOTES"
         const val EXTRA_IMAGE = 1
     }
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    lateinit var contactsViewModel: ContactsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +45,7 @@ class AddContactActivity : AppCompatActivity() {
         add_contact_image.setOnClickListener {
             getGalleryImage()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -67,7 +76,7 @@ class AddContactActivity : AppCompatActivity() {
         startActivityForResult(galleryIntent, EXTRA_IMAGE)
     }
 
-    private fun saveContact() : ContactsModel {
+    private fun saveContact() {
 
         val firstName: String = add_contact_firstName.text.toString()
         val lastName: String = add_contact_lastName.text.toString()
@@ -75,37 +84,36 @@ class AddContactActivity : AppCompatActivity() {
         val email: String = add_contact_email.text.toString()
         val notes: String = add_contact_notes.text.toString()
 
-        when {
-            firstName.trim().isEmpty() -> {
-                shortToast(getString(R.string.empty_name))
-            }
-            lastName.trim().isEmpty() -> {
-                shortToast(getString(R.string.empty_last_name))
-            }
-            phone.trim().isEmpty() -> {
-                shortToast(getString(R.string.empty_phone))
-            }
-            email.trim().isEmpty() -> {
-                shortToast(getString(R.string.empty_email))
-            }
-            notes.trim().isEmpty() -> {
-                shortToast(getString(R.string.empty_notes))
-            }
+        if (firstName.trim().isEmpty()) {
+            shortToast(getString(R.string.empty_name))
         }
-            val data = Intent()
-            data.putExtra(EXTRA_FIRST_NAME, firstName)
-            data.putExtra(EXTRA_LAST_NAME, lastName)
-            data.putExtra(EXTRA_PHONE, phone)
-            data.putExtra(EXTRA_EMAIL, email)
-            data.putExtra(EXTRA_NOTES, notes)
+        else if (lastName.trim().isEmpty()) {
+            shortToast(getString(R.string.empty_last_name))
+        }
+        else if (phone.trim().isEmpty()) {
+            shortToast(getString(R.string.empty_phone))
+        }
+        else if (email.trim().isEmpty()) {
+            shortToast(getString(R.string.empty_email))
+        }
+        else if (notes.trim().isEmpty()) {
+            shortToast(getString(R.string.empty_notes))
+        } else {
+//            val data = Intent()
+//            data.putExtra(EXTRA_FIRST_NAME, firstName)
+//            data.putExtra(EXTRA_LAST_NAME, lastName)
+//            data.putExtra(EXTRA_PHONE, phone)
+//            data.putExtra(EXTRA_EMAIL, email)
+//            data.putExtra(EXTRA_NOTES, notes)
+//
+//            setResult(RESULT_OK, data)
+//            finish()
 
-            setResult(RESULT_OK, data)
-            finish()
+            val contacts = ContactsModel(
+                firstName = firstName, lastName = lastName, phone = phone,
+                email = email, notes = notes, images = "")
 
-        val contacts = ContactsModel(firstName = firstName, lastName = lastName, phone = phone,
-            email = email, notes = notes, images = "")
-
-        return contacts
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

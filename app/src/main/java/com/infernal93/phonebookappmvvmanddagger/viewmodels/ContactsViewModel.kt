@@ -21,7 +21,6 @@ class ContactsViewModel @Inject constructor(private val contactsRepository: Cont
     var mutableLiveData = MutableLiveData<List<ContactsModel>>()
     private val disposable = CompositeDisposable()
 
-
     fun getContactMutableLiveData(): MutableLiveData<List<ContactsModel>> {
 
         disposable.add(contactsRepository.modelSingle()
@@ -36,5 +35,6 @@ class ContactsViewModel @Inject constructor(private val contactsRepository: Cont
             }))
         return mutableLiveData
     }
+
 
 }
