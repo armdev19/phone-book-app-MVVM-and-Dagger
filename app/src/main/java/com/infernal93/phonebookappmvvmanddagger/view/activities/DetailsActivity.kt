@@ -1,6 +1,5 @@
 package com.infernal93.phonebookappmvvmanddagger.view.activities
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +24,7 @@ class DetailsActivity : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         toolbar.title = getString(R.string.details_toolbar_title)
+
         toolbar.setNavigationOnClickListener{
             onBackPressed()
             overridePendingTransition(0, 0)

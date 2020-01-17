@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PhoneBook MVVM and Dagger</string>
+    <string name="app_name">PhoneBook app</string>
     <string name="login_welcome_text">PhoneBook app \n with MVVM</string>
     <string name="email_text">Email...</string>
     <string name="password_text">Password...</string>
@@ -22,4 +22,5 @@
     <string name="empty_notes">Please write correct Notes</string>
     <string name="plus">+</string>
     <string name="new_contact_saved">New contactsRoom saved</string>
+    <string name="cancel_hint">Cancel</string>
 </resources>

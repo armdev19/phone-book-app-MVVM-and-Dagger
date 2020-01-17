@@ -17,15 +17,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".view.activities.AddContactActivity"
-            android:parentActivityName=".view.activities.ContactListActivity">
-
-        </activity>
+            android:parentActivityName=".view.activities.ContactListActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activities.DetailsActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activities.ContactListActivity"
@@ -33,7 +30,6 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

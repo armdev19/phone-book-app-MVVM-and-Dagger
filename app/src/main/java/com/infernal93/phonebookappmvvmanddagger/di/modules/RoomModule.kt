@@ -10,7 +10,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
 /**
  * Created by Armen Mkhitaryan on 12.01.2020.
  */
@@ -20,8 +19,11 @@ class RoomModule {
     private lateinit var contactDatabase: ContactDatabase
 
     fun RoomModule(app: App) {
-        contactDatabase = Room.databaseBuilder<ContactDatabase>(app, ContactDatabase::class.java, "contact_database")
-                .build()
+        contactDatabase = Room.databaseBuilder<ContactDatabase>(
+            app,
+            ContactDatabase::class.java,
+            "contact_database")
+            .build()
     }
 
     @Singleton
@@ -36,14 +38,9 @@ class RoomModule {
         return contactDatabase.contactDao()
     }
 
-
-
     @Provides
-    fun providesContactRepository(app: App, apiRepository: ApiRepository) : RoomRepository {
-        return RoomRepository(
-            app,
-            apiRepository
-        )
+    fun providesContactRepository(app: App, apiRepository: ApiRepository): RoomRepository {
+        return RoomRepository(app, apiRepository)
     }
 
 }

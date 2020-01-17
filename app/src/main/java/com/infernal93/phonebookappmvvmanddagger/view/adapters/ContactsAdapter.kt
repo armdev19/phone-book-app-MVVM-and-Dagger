@@ -22,13 +22,11 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
 
     fun setupContacts(contactsList: ArrayList<ContactsRoom>) {
         mContactsList.clear()
-        mContactsList.addAll(contactsList)
-    }
+        mContactsList.addAll(contactsList) }
 
     fun sortByName() {
         mContactsList.sortBy { it.firstName }
-        notifyDataSetChanged()
-    }
+        notifyDataSetChanged() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -55,17 +53,16 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
     }
 
     class ContactsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var mContactIcon: CircleImageView = itemView.findViewById(R.id.contact_image)
-        var mContactFirstName: TextView = itemView.findViewById(R.id.contact_first_name)
-        var mContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
+        private var mContactIcon: CircleImageView = itemView.findViewById(R.id.contact_image)
+        private var mContactFirstName: TextView = itemView.findViewById(R.id.contact_first_name)
+        private var mContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
 
-        @SuppressLint("SetTextI18n")
         fun bind(contactsModel: ContactsRoom) {
             contactsModel.images?.let { url ->
                 Picasso.with(itemView.context).load(url)
                     .placeholder(R.drawable.ic_person_placeholder)
-                    .into(mContactIcon)
-            }
+                    .into(mContactIcon) }
+
             mContactFirstName.text =  contactsModel.firstName
             mContactPhone.text = contactsModel.phone
         }

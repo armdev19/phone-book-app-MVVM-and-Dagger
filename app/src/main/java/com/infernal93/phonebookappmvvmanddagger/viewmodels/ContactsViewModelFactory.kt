@@ -14,7 +14,6 @@ class ContactsViewModelFactory @Inject constructor(private val contactsViewModel
 
     @Suppress(names = ["UNCHECKED_CAST"])
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
         return contactsViewModelProvider.get() as T
     }
 }

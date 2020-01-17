@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import javax.inject.Singleton
 
-
 /**
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
@@ -51,7 +50,6 @@ class NetworkModule {
         httpClient.addInterceptor(logging)
         return httpClient.build()
     }
-
 
     @Provides
     @Singleton

@@ -16,7 +16,6 @@ import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactsViewModel
 import dagger.Component
 import javax.inject.Singleton
 
-
 /**
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
@@ -26,22 +25,14 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
     fun inject(app: App)
-
-    // Activities
     fun inject(activity: ContactListActivity)
     fun inject(activity: AddContactActivity)
-
-    // ViewModels
     fun inject(viewModel: ContactsViewModel)
-
     fun inject(apiRepository: ApiRepository)
 
     fun contactDatabase(): ContactDatabase
-
     fun contactDao(): ContactDao
-
     fun contactRepository(): RoomRepository
-
     fun contactsService() : ContactsService
     fun imagesService() : ImagesService
 

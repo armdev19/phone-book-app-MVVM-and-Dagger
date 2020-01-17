@@ -7,7 +7,7 @@ import android.widget.Toast
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
 
-fun Context.shortToast(message: String) {
+fun Context.shortToast(message: Int) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 

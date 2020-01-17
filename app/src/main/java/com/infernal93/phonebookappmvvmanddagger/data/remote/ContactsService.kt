@@ -18,5 +18,4 @@ interface ContactsService {
 
     @POST(value = "rest/contacts")
     fun postNewContact(@Body contactsApi: ContactsApi): Call<ContactsApi>
-
 }
