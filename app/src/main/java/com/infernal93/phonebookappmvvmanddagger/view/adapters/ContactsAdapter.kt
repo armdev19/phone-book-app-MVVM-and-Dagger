@@ -1,5 +1,6 @@
 package com.infernal93.phonebookappmvvmanddagger.view.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,21 +9,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.infernal93.phonebookappmvvmanddagger.R
-import com.infernal93.phonebookappmvvmanddagger.model.ContactsModel
+import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.view.activities.DetailsActivity
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
 /**
- * Created by Armen Mkhitaryan on 09.01.2020.
+ * Created by Armen Mkhitaryan on 03.01.2020.
  */
-
-class ContactsAdapter (private val context: Context, private val mContactsList: ArrayList<ContactsModel> = ArrayList())
+class ContactsAdapter (private val context: Context, private val mContactsList: ArrayList<ContactsRoom> = ArrayList())
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun addItem(contactsModel: ContactsModel) {
-        mContactsList.add(contactsModel)
-        notifyDataSetChanged()
+    fun setupContacts(contactsList: ArrayList<ContactsRoom>) {
+        mContactsList.clear()
+        mContactsList.addAll(contactsList)
     }
 
     fun sortByName() {
@@ -45,7 +45,7 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
             holder.bind(contactsModel = mContactsList[position])
 
             holder.itemView.setOnClickListener {
-                val contactsModel: ContactsModel = mContactsList[position]
+                val contactsModel: ContactsRoom = mContactsList[position]
                 val intent = Intent(context, DetailsActivity::class.java)
                 intent.putExtra("contact", contactsModel)
                 intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
@@ -59,13 +59,14 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
         var mContactFirstName: TextView = itemView.findViewById(R.id.contact_first_name)
         var mContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
 
-        fun bind(contactsModel: ContactsModel) {
+        @SuppressLint("SetTextI18n")
+        fun bind(contactsModel: ContactsRoom) {
             contactsModel.images?.let { url ->
                 Picasso.with(itemView.context).load(url)
                     .placeholder(R.drawable.ic_person_placeholder)
                     .into(mContactIcon)
             }
-            mContactFirstName.text = contactsModel.firstName
+            mContactFirstName.text =  contactsModel.firstName
             mContactPhone.text = contactsModel.phone
         }
     }

@@ -1,90 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.activities.AddContactActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_add_contact"
-        style="@style/Toolbar"/>
+    <data>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/add_contact_image"
-        android:layout_width="@dimen/civ_size"
-        android:layout_height="@dimen/civ_size"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/ic_person_placeholder"
-        app:civ_border_width="5dp"
-        app:civ_border_color="@color/colorPrimary"
-        android:layout_below="@id/toolbar_add_contact"/>
+        <variable
+            name="addContactViewModel"
+            type="com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactsViewModel" />
+    </data>
 
-    <EditText
-        android:id="@+id/add_contact_firstName"
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_inputs"
-        android:ems="10"
-        android:hint="@string/add_contact_first_name"
-        android:inputType="text"
-        android:textColorHint="@color/dark_gray"
-        android:layout_below="@id/add_contact_image"/>
 
-    <EditText
-        android:id="@+id/add_contact_lastName"
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_inputs"
-        android:ems="10"
-        android:hint="@string/add_contact_last_name"
-        android:inputType="text"
-        android:textColorHint="@color/dark_gray"
-        android:layout_below="@id/add_contact_firstName"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activities.AddContactActivity">
 
-    <EditText
-        android:id="@+id/add_contact_phone"
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_inputs"
-        android:ems="10"
-        android:hint="@string/add_contact_phone"
-        android:inputType="phone"
-        android:textColorHint="@color/dark_gray"
-        android:layout_below="@id/add_contact_lastName"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_add_contact"
+            style="@style/Toolbar" />
 
-    <EditText
-        android:id="@+id/add_contact_email"
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_inputs"
-        android:ems="10"
-        android:hint="@string/add_contact_email"
-        android:inputType="textEmailAddress"
-        android:textColorHint="@color/dark_gray"
-        android:layout_below="@id/add_contact_phone"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/add_contact_image"
+            android:layout_width="@dimen/civ_size"
+            android:layout_height="@dimen/civ_size"
+            android:layout_below="@id/toolbar_add_contact"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/ic_person_placeholder"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="5dp" />
 
-    <EditText
-        android:id="@+id/add_contact_notes"
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_inputs"
-        android:ems="10"
-        android:hint="@string/add_contact_notes"
-        android:inputType="text"
-        android:textColorHint="@color/dark_gray"
-        android:layout_below="@id/add_contact_email"/>
+        <EditText
+            android:id="@+id/add_contact_firstName"
+            android:layout_width="@dimen/edit_text_width"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_below="@id/add_contact_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_inputs"
+            android:ems="10"
+            android:hint="@string/add_contact_first_name"
+            android:inputType="text"
+            android:textColorHint="@color/dark_gray" />
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/add_contact_lastName"
+            android:layout_width="@dimen/edit_text_width"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_below="@id/add_contact_firstName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_inputs"
+            android:ems="10"
+            android:hint="@string/add_contact_last_name"
+            android:inputType="text"
+            android:textColorHint="@color/dark_gray" />
+
+        <EditText
+            android:id="@+id/add_contact_phone"
+            android:layout_width="@dimen/edit_text_width"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_below="@id/add_contact_lastName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_inputs"
+            android:ems="10"
+            android:hint="@string/add_contact_phone"
+            android:inputType="phone"
+            android:textColorHint="@color/dark_gray" />
+
+        <EditText
+            android:id="@+id/add_contact_email"
+            android:layout_width="@dimen/edit_text_width"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_below="@id/add_contact_phone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_inputs"
+            android:ems="10"
+            android:hint="@string/add_contact_email"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/dark_gray" />
+
+        <EditText
+            android:id="@+id/add_contact_notes"
+            android:layout_width="@dimen/edit_text_width"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_below="@id/add_contact_email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_inputs"
+            android:ems="10"
+            android:hint="@string/add_contact_notes"
+            android:inputType="text"
+            android:textColorHint="@color/dark_gray" />
+
+    </RelativeLayout>
+
+</layout>

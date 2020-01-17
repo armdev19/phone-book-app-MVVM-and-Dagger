@@ -1,6 +1,7 @@
 package com.infernal93.phonebookappmvvmanddagger.di.modules
 
-import com.infernal93.phonebookappmvvmanddagger.remote.ContactsService
+import com.infernal93.phonebookappmvvmanddagger.data.remote.ContactsService
+import com.infernal93.phonebookappmvvmanddagger.data.remote.ImagesService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -12,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import javax.inject.Singleton
 
+
 /**
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
@@ -21,7 +23,7 @@ class NetworkModule {
 
     companion object {
         const val KEY = "5e0fc647b68f0802dd3e5f8b"
-        const val BASE_URL = "https://phonebookapp-683c.restdb.io/rest/"
+        const val BASE_URL = "https://phonebookapp-683c.restdb.io/"
     }
 
     @Provides
@@ -50,6 +52,7 @@ class NetworkModule {
         return httpClient.build()
     }
 
+
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
@@ -64,9 +67,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideContactsService(retrofit: Retrofit) : ContactsService{
+    fun provideContactsService(retrofit: Retrofit) : ContactsService =
+        retrofit.create(ContactsService::class.java)
 
-        return retrofit.create(ContactsService::class.java)
-    }
+    @Provides
+    @Singleton
+    fun provideImagesService(retrofit: Retrofit) : ImagesService =
+        retrofit.create(ImagesService::class.java)
 
 }

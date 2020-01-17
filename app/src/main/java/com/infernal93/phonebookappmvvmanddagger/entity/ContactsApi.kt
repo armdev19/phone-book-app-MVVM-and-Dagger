@@ -1,4 +1,4 @@
-package com.infernal93.phonebookappmvvmanddagger.model
+package com.infernal93.phonebookappmvvmanddagger.entity
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -7,17 +7,17 @@ import java.io.Serializable
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
 
-data class ContactsModel(
+data class ContactsApi(
     @SerializedName("firstName")
-    val firstName: String,
+    var firstName: String,
     @SerializedName("lastName")
-    val lastName: String,
+    var lastName: String,
     @SerializedName("phone")
-    val phone: String,
+    var phone: String,
     @SerializedName("email")
-    val email: String,
+    var email: String,
     @SerializedName("notes")
-    val notes: String,
+    var notes: String,
     @SerializedName("images")
-    val images: String?
+    var images: String?
 ) : Serializable

@@ -20,4 +20,6 @@
     <string name="empty_phone">Please write correct Phone number</string>
     <string name="empty_email">Please write correct Email adress</string>
     <string name="empty_notes">Please write correct Notes</string>
+    <string name="plus">+</string>
+    <string name="new_contact_saved">New contactsRoom saved</string>
 </resources>

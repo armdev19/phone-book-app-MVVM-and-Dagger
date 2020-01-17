@@ -1,7 +1,7 @@
 package com.infernal93.phonebookappmvvmanddagger.di.modules
 
 import android.content.Context
-import com.infernal93.phonebookappmvvmanddagger.utils.App
+import com.infernal93.phonebookappmvvmanddagger.App
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,9 +11,14 @@ import javax.inject.Singleton
  */
 
 @Module
-class ContextModule
+class ContextModule(val app: App)
 {
+//    @Provides
+//    @Singleton
+//    fun provideApplication(app : App): Context = app
+
     @Provides
-    @Singleton
-    fun provideApplication(app : App): Context = app
+    fun provideApplication(): App {
+        return app
+    }
 }

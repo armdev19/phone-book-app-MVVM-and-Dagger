@@ -1,10 +1,11 @@
 package com.infernal93.phonebookappmvvmanddagger.view.activities
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.infernal93.phonebookappmvvmanddagger.R
-import com.infernal93.phonebookappmvvmanddagger.model.ContactsModel
+import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details.*
 
@@ -33,16 +34,18 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun getDetailInfoContact() {
-        val clickedContact: ContactsModel = intent.getSerializableExtra("contact")
-                as ContactsModel
+        val clickedContactsRoom: ContactsRoom = intent.getSerializableExtra("contact")
+                as ContactsRoom
 
-        details_first_name.text = clickedContact.firstName
-        details_last_name.text = clickedContact.lastName
-        details_phone.text = clickedContact.phone
-        details_email.text = clickedContact.email
-        details_notes.text = clickedContact.notes
+        details_first_name.text = clickedContactsRoom.firstName
+        details_last_name.text = clickedContactsRoom.lastName
+        details_phone.text = clickedContactsRoom.phone
+        details_email.text = clickedContactsRoom.email
+        details_notes.text = clickedContactsRoom.notes
 
-        Picasso.with(this@DetailsActivity).load(clickedContact.images).into(details_image)
+        Picasso.with(this@DetailsActivity).load(clickedContactsRoom.images)
+            .placeholder(R.drawable.ic_person_placeholder)
+            .into(details_image)
     }
 
     override fun onBackPressed() {
