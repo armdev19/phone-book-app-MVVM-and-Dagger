@@ -15,6 +15,7 @@ buildscript {
 
         // Android Navigation Safe Args Classpath
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-rc04"
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 

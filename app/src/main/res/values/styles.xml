@@ -16,4 +16,9 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <!-- Base FullScreen theme. -->
+    <style name="AppTheme.Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="loginViewModel"
+            type="com.infernal93.phonebookappmvvmanddagger.viewmodels.AuthViewModel" />
+    </data>
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        tools:context=".view.fragments.LoginFragment">
+
+        <ScrollView
+            android:id="@+id/root_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <TextView
+                    android:id="@+id/txt_login_welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="70dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/login_welcome_text"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="45sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/login_email"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="70dp"
+                    android:background="@drawable/bg_inputs"
+                    android:ems="10"
+                    android:hint="@string/email_text"
+                    android:text="@={loginViewModel.mEmail}"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/dark_gray"
+                    android:layout_below="@id/txt_login_welcome"/>
+
+                <EditText
+                    android:id="@+id/login_password"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/login_email"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_inputs"
+                    android:hint="@string/password_text"
+                    android:text="@={loginViewModel.mPassword}"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/dark_gray" />
+
+                <com.github.rahatarmanahmed.cpv.CircularProgressView
+                    android:id="@+id/cpv_login"
+                    android:layout_width="@dimen/cpv_size"
+                    android:layout_height="@dimen/cpv_size"
+                    android:layout_below="@id/login_password"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:visibility="gone"
+                    app:cpv_animAutostart="true"
+                    app:cpv_color="@color/colorPrimary"
+                    app:cpv_indeterminate="true" />
+
+                <Button
+                    android:id="@+id/btn_login_enter"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/cpv_login"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_buttons"
+                    android:text="@string/login_btn_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_btns_text_size"
+                    android:onClick="@{(view) -> loginViewModel.login(view)}"/>
+
+                <Button
+                    android:id="@+id/btn_registration"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/btn_login_enter"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_buttons"
+                    android:text="@string/registration_btn_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_btns_text_size" />
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </FrameLayout>
+
+</layout>
+
+

@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
-import com.infernal93.phonebookappmvvmanddagger.App
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ContactsService
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ImagesService
@@ -20,8 +18,10 @@ import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.entity.ImageResponse
 import com.infernal93.phonebookappmvvmanddagger.utils.shortToast
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactsViewModel
+import com.infernal93.phonebookappmvvmanddagger.viewmodels.AddContactViewModel
+import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
 import com.theartofdev.edmodo.cropper.CropImage
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_contact.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -35,7 +35,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-class AddContactActivity : AppCompatActivity() {
+class AddContactActivity : DaggerAppCompatActivity() {
     private val TAG = "AddContactActivity"
 
     private lateinit var mAddContactBinding: ActivityAddContactBinding
@@ -49,14 +49,14 @@ class AddContactActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    lateinit var addContactsViewModel: ContactsViewModel
+    lateinit var addContactListViewModel: AddContactViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_contact)
 
-        mAddContactBinding =
-            DataBindingUtil.setContentView(this@AddContactActivity, R.layout.activity_add_contact)
+
+        mAddContactBinding = DataBindingUtil.setContentView(this@AddContactActivity, R.layout.activity_add_contact)
 
         setSupportActionBar(mAddContactBinding.toolbarAddContact)
         mAddContactBinding.toolbarAddContact.title = getString(R.string.add_contact_title)
@@ -65,13 +65,13 @@ class AddContactActivity : AppCompatActivity() {
             getGalleryImage()
         }
 
-        (applicationContext as App).appComponent.inject(this@AddContactActivity)
 
-        contactsService = (applicationContext as App).appComponent.contactsService()
-        imagesService = (applicationContext as App).appComponent.imagesService()
 
-        addContactsViewModel = ViewModelProviders.of(this@AddContactActivity, factory)
-            .get(ContactsViewModel::class.java)
+        //contactsService = (applicationContext as App).appComponent.contactsService()
+       // imagesService = (applicationContext as App).appComponent.imagesService()
+
+        addContactListViewModel = ViewModelProviders.of(this@AddContactActivity, factory)
+            .get(AddContactViewModel::class.java)
 
     }
 
@@ -157,7 +157,7 @@ class AddContactActivity : AppCompatActivity() {
                     firstName = firstName, lastName = lastName, phone = phone,
                     email = email, notes = notes, images = imageForDB)
 
-                addContactsViewModel.insert(newContactRoom)
+                addContactListViewModel.insert(newContactRoom)
 
                 val newContactApi = ContactsApi(
                     firstName = firstName, lastName = lastName, phone = phone,

@@ -9,11 +9,11 @@ import javax.inject.Provider
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
 
-class ContactsViewModelFactory @Inject constructor(private val contactsViewModelProvider: Provider<ContactsViewModel>)
+class ContactListViewModelFactory @Inject constructor(private val contactListViewModelProvider: Provider<ContactListViewModel>)
     : ViewModelProvider.Factory {
 
     @Suppress(names = ["UNCHECKED_CAST"])
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return contactsViewModelProvider.get() as T
+        return contactListViewModelProvider.get() as T
     }
 }

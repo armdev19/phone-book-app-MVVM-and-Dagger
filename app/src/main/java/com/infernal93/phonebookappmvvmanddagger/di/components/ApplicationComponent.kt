@@ -1,19 +1,18 @@
 package com.infernal93.phonebookappmvvmanddagger.di.components
 
 import com.infernal93.phonebookappmvvmanddagger.App
-import com.infernal93.phonebookappmvvmanddagger.di.modules.ContextModule
+import com.infernal93.phonebookappmvvmanddagger.di.modules.AppModule
 import com.infernal93.phonebookappmvvmanddagger.di.modules.NetworkModule
 import com.infernal93.phonebookappmvvmanddagger.di.modules.RoomModule
-import com.infernal93.phonebookappmvvmanddagger.repository.ApiRepository
 import com.infernal93.phonebookappmvvmanddagger.data.local.ContactDao
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ContactsService
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ImagesService
+import com.infernal93.phonebookappmvvmanddagger.di.modules.ViewModelModule
 import com.infernal93.phonebookappmvvmanddagger.model.ContactDatabase
 import com.infernal93.phonebookappmvvmanddagger.repository.RoomRepository
-import com.infernal93.phonebookappmvvmanddagger.view.activities.AddContactActivity
-import com.infernal93.phonebookappmvvmanddagger.view.activities.ContactListActivity
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactsViewModel
 import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 /**
@@ -21,20 +20,12 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [ContextModule::class, NetworkModule::class, RoomModule::class])
-interface ApplicationComponent {
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, NetworkModule::class, RoomModule::class, ViewModelModule::class])
+interface ApplicationComponent : AndroidInjector<App> {
 
-    fun inject(app: App)
-    fun inject(activity: ContactListActivity)
-    fun inject(activity: AddContactActivity)
-    fun inject(viewModel: ContactsViewModel)
-    fun inject(apiRepository: ApiRepository)
+    @Component.Factory
+    abstract class Factory : AndroidInjector.Factory<App>
 
-    fun contactDatabase(): ContactDatabase
-    fun contactDao(): ContactDao
-    fun contactRepository(): RoomRepository
-    fun contactsService() : ContactsService
-    fun imagesService() : ImagesService
 
 
 }

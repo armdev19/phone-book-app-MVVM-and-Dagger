@@ -43,7 +43,7 @@ class RoomRepository @Inject constructor(app: App, private val apiRepository: Ap
     fun insertAll() {
         AsyncTask.execute{
             val disposable = CompositeDisposable()
-            disposable.add(apiRepository.modelSingle()
+            disposable.add(apiRepository.getAllContacts()
                 .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<ContactsRoom>>() {

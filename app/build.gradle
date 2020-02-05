@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -44,6 +45,7 @@ android {
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'androidx.test.ext:junit:1.1.1'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+        implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
         // Dagger Dependency Injection
         def daggerVersion = '2.24'

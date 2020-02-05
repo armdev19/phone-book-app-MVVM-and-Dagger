@@ -8,16 +8,16 @@ import java.io.Serializable
  */
 
 data class ContactsApi(
-    @SerializedName("firstName")
+    @SerializedName(value = "firstName")
     var firstName: String,
-    @SerializedName("lastName")
+    @SerializedName(value = "lastName")
     var lastName: String,
-    @SerializedName("phone")
+    @SerializedName(value = "phone")
     var phone: String,
-    @SerializedName("email")
+    @SerializedName(value = "email")
     var email: String,
-    @SerializedName("notes")
+    @SerializedName(value = "notes")
     var notes: String,
-    @SerializedName("images")
+    @SerializedName(value = "images")
     var images: String?
 ) : Serializable

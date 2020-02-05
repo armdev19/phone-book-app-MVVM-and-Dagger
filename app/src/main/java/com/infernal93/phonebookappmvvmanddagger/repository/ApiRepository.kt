@@ -1,7 +1,7 @@
 package com.infernal93.phonebookappmvvmanddagger.repository
 
+
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ContactsService
-import com.infernal93.phonebookappmvvmanddagger.data.remote.ImagesService
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import io.reactivex.Single
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class ApiRepository @Inject constructor(private val contactsService: ContactsService) {
 
-    fun modelSingle(): Single<List<ContactsRoom>> {
+    fun getAllContacts(): Single<List<ContactsRoom>> {
         return contactsService.getContactModel()
     }
 }

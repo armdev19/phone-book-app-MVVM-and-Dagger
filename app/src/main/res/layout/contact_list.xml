@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="contactViewModel"
-            type="com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactsViewModel" />
+            name="contactListViewModel"
+            type="com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel" />
     </data>
 
     <RelativeLayout

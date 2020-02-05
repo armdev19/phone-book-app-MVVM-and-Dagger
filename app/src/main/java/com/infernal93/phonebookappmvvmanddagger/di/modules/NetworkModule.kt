@@ -1,5 +1,7 @@
 package com.infernal93.phonebookappmvvmanddagger.di.modules
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ContactsService
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ImagesService
 import dagger.Module
@@ -17,7 +19,8 @@ import javax.inject.Singleton
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
 
-@Module(includes = [ViewModelModule::class])
+//@Module(includes = [ViewModelModule::class])
+@Module
 class NetworkModule {
 
     companion object {
@@ -72,5 +75,19 @@ class NetworkModule {
     @Singleton
     fun provideImagesService(retrofit: Retrofit) : ImagesService =
         retrofit.create(ImagesService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth() : FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCurrentUser(firebaseAuth: FirebaseAuth): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
+
 
 }

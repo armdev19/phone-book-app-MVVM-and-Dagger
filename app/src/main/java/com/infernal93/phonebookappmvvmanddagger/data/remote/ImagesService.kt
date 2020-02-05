@@ -11,6 +11,6 @@ import retrofit2.http.*
 interface ImagesService {
 
     @Multipart
-    @POST("media")
+    @POST(value = "media")
     fun postImage(@Part photo: MultipartBody.Part): Call<ResponseBody>
 }
