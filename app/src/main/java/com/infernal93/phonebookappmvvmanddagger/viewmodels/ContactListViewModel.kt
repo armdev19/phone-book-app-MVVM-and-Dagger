@@ -15,10 +15,6 @@ class ContactListViewModel @Inject constructor(private val roomRepository: RoomR
 
     private lateinit var mAuth: FirebaseAuth
 
-    fun insert(contactsRoom: ContactsRoom){
-        roomRepository.insert(contactsRoom)
-    }
-
     fun insertAll() {
         roomRepository.insertAll()
     }

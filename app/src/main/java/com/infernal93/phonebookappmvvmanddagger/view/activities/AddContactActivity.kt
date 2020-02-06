@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +19,7 @@ import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.entity.ImageResponse
 import com.infernal93.phonebookappmvvmanddagger.utils.shortToast
+import com.infernal93.phonebookappmvvmanddagger.view.interfaces.AddContactListener
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.AddContactViewModel
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
 import com.theartofdev.edmodo.cropper.CropImage
@@ -35,7 +37,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-class AddContactActivity : DaggerAppCompatActivity() {
+class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
     private val TAG = "AddContactActivity"
 
     private lateinit var mAddContactBinding: ActivityAddContactBinding
@@ -61,9 +63,9 @@ class AddContactActivity : DaggerAppCompatActivity() {
         setSupportActionBar(mAddContactBinding.toolbarAddContact)
         mAddContactBinding.toolbarAddContact.title = getString(R.string.add_contact_title)
 
-        mAddContactBinding.addContactImage.setOnClickListener {
-            getGalleryImage()
-        }
+//        mAddContactBinding.addContactImage.setOnClickListener {
+//            getGalleryImage()
+//        }
 
 
 
@@ -72,6 +74,8 @@ class AddContactActivity : DaggerAppCompatActivity() {
 
         addContactListViewModel = ViewModelProviders.of(this@AddContactActivity, factory)
             .get(AddContactViewModel::class.java)
+
+        addContactListViewModel.mAddContactListener = this
 
     }
 
@@ -93,7 +97,10 @@ class AddContactActivity : DaggerAppCompatActivity() {
                 val resultUri = result.uri
                 imageForDB = resultUri.toString()
 
+
                 val toPath: String = result.uri.path!!
+
+
                 val file = File(toPath)
                 val fileReqBody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
                 val part: MultipartBody.Part = MultipartBody.Part.
@@ -119,16 +126,22 @@ class AddContactActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun getGalleryImage() {
+    override fun getGalleryImage() {
         val galleryIntent = Intent()
         galleryIntent.action = Intent.ACTION_GET_CONTENT
         galleryIntent.type = "image/*"
         startActivityForResult(galleryIntent, EXTRA_IMAGE)
     }
 
-    private fun saveContact() {
-        if (imageForDB == null) imageForDB = R.drawable.ic_person_placeholder.toString()
+    override fun showError(textResource: Int) {
+        Toast.makeText(this@AddContactActivity, getString(textResource), Toast.LENGTH_LONG).show()
+    }
 
+    override fun savePlaceholder() {
+        if (imageForDB == null) imageForDB = R.drawable.ic_person_placeholder.toString()
+    }
+
+    private fun saveContact() {
 
         val firstName: String = add_contact_firstName.text.toString()
         val lastName: String = add_contact_lastName.text.toString()

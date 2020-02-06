@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.databinding.FragmentLoginBinding
-import com.infernal93.phonebookappmvvmanddagger.view.LoginListener
+import com.infernal93.phonebookappmvvmanddagger.view.interfaces.LoginListener
 import com.infernal93.phonebookappmvvmanddagger.view.activities.ContactListActivity
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.AuthViewModel
 import dagger.android.support.DaggerFragment
@@ -23,7 +23,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 import javax.inject.Inject
 
 
-class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibilityEventListener, LoginListener {
+class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibilityEventListener,
+    LoginListener {
 
     private lateinit var navController: NavController
     lateinit var binding: FragmentLoginBinding

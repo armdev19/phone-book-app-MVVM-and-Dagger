@@ -40,6 +40,17 @@ class RoomRepository @Inject constructor(app: App, private val apiRepository: Ap
             contactDao.insert(contactsRoom) }
     }
 
+    fun update(contactsRoom: ContactsRoom) {
+        AsyncTask.execute{
+            contactDao.update(contactsRoom) }
+    }
+
+    fun delete(contactsRoom: ContactsRoom) {
+        AsyncTask.execute {
+            contactDao.delete(contactsRoom)
+        }
+    }
+
     fun insertAll() {
         AsyncTask.execute{
             val disposable = CompositeDisposable()

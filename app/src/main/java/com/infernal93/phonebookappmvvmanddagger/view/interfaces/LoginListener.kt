@@ -1,4 +1,4 @@
-package com.infernal93.phonebookappmvvmanddagger.view
+package com.infernal93.phonebookappmvvmanddagger.view.interfaces
 
 /**
  * Created by Armen Mkhitaryan on 04.02.2020.
