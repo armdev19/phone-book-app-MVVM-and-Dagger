@@ -86,7 +86,7 @@ class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibility
     }
 
     override fun showError(textResource: Int) {
-        Toast.makeText(context, getString(textResource), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(textResource), Toast.LENGTH_LONG).show()
     }
 
 
