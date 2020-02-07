@@ -9,12 +9,15 @@
     <string name="details_toolbar_title">Details info</string>
     <string name="contacts_toolbar_title">PhoneBook app</string>
 
-    <string name="add_contact_last_name">Please write Last Name</string>
+
     <string name="save_hint">Save</string>
     <string name="add_contact_title">Add Contact</string>
-    <string name="add_contact_phone">Please write phone number</string>
-    <string name="add_contact_email">Please write email</string>
-    <string name="add_contact_notes">Please write notes</string>
+
+    <string name="add_contact_first_name">Please enter First Name</string>
+    <string name="add_contact_last_name">Please enter Last Name</string>
+    <string name="add_contact_phone">Please enter phone number</string>
+    <string name="add_contact_email">Please enter email</string>
+    <string name="add_contact_notes">Please enter notes</string>
 
 
 

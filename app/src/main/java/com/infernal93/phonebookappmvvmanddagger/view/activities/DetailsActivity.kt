@@ -43,9 +43,17 @@ class DetailsActivity : AppCompatActivity() {
         details_email.text = clickedContactsRoom.email
         details_notes.text = clickedContactsRoom.notes
 
-        Picasso.with(this@DetailsActivity).load(clickedContactsRoom.images)
+        if (clickedContactsRoom.images.isNullOrEmpty()) {
+            details_image.setImageResource(R.drawable.ic_person_placeholder)
+        } else {
+            Picasso.with(this@DetailsActivity).load(clickedContactsRoom.images)
             .placeholder(R.drawable.ic_person_placeholder)
             .into(details_image)
+        }
+
+//        Picasso.with(this@DetailsActivity).load(clickedContactsRoom.images)
+//            .placeholder(R.drawable.ic_person_placeholder)
+//            .into(details_image)
     }
 
     override fun onBackPressed() {

@@ -21,12 +21,12 @@ class RoomRepository @Inject constructor(app: App, private val apiRepository: Ap
     private var allContacts: LiveData<List<ContactsRoom>>
 
     companion object {
-        @Volatile
-        private var INSTANCE: RoomRepository? = null
-
-        fun getInstance(app: App): RoomRepository {
-            return INSTANCE ?: getInstance(app)
-        }
+//        @Volatile
+//        private var INSTANCE: RoomRepository? = null
+//
+//        fun getInstance(app: App): RoomRepository {
+//            return INSTANCE ?: getInstance(app)
+//        }
     }
 
     init {

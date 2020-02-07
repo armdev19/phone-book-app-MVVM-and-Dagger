@@ -58,10 +58,20 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
         private var mContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
 
         fun bind(contactsModel: ContactsRoom) {
-            contactsModel.images?.let { url ->
-                Picasso.with(itemView.context).load(url)
+
+            if (contactsModel.images.isNullOrEmpty()) {
+                mContactIcon.setImageResource(R.drawable.ic_person_placeholder)
+            } else {
+                Picasso.with(itemView.context).load(contactsModel.images)
                     .placeholder(R.drawable.ic_person_placeholder)
-                    .into(mContactIcon) }
+                    .into(mContactIcon)
+            }
+//            contactsModel.images?.let { url ->
+//                Picasso.with(itemView.context).load(url)
+//                    .placeholder(R.drawable.ic_person_placeholder)
+//                    .error(R.drawable.ic_person_placeholder)
+//                    .into(mContactIcon)
+//                    }
 
             mContactFirstName.text =  contactsModel.firstName
             mContactPhone.text = contactsModel.phone

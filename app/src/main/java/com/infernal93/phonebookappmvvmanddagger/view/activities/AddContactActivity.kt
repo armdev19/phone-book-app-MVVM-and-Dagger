@@ -21,7 +21,6 @@ import com.infernal93.phonebookappmvvmanddagger.entity.ImageResponse
 import com.infernal93.phonebookappmvvmanddagger.utils.shortToast
 import com.infernal93.phonebookappmvvmanddagger.view.interfaces.AddContactListener
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.AddContactViewModel
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_contact.*
@@ -44,6 +43,8 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
     var imageMediaId: String = ""
     private var imageForDB: String? = null
 
+    private  var toPath: String? = null
+
     private lateinit var contactsService: ContactsService
     private lateinit var imagesService: ImagesService
 
@@ -63,9 +64,14 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
         setSupportActionBar(mAddContactBinding.toolbarAddContact)
         mAddContactBinding.toolbarAddContact.title = getString(R.string.add_contact_title)
 
-//        mAddContactBinding.addContactImage.setOnClickListener {
-//            getGalleryImage()
-//        }
+        mAddContactBinding.addContactImage.setOnClickListener {
+            getGalleryImage()
+        }
+
+        add_contact_image.setOnClickListener {
+            getGalleryImage()
+        }
+
 
 
 
@@ -74,6 +80,8 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
 
         addContactListViewModel = ViewModelProviders.of(this@AddContactActivity, factory)
             .get(AddContactViewModel::class.java)
+
+        mAddContactBinding.addContactViewModel = addContactListViewModel
 
         addContactListViewModel.mAddContactListener = this
 
@@ -97,28 +105,35 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
                 val resultUri = result.uri
                 imageForDB = resultUri.toString()
 
+                if (imageForDB == null) {
+                    imageForDB = R.drawable.ic_person_placeholder.toString()
+                } else {
+                    addContactListViewModel.uploadImageForDb(imageForDB!!)
+                }
 
-                val toPath: String = result.uri.path!!
+
+                 toPath = result.uri.path
 
 
-                val file = File(toPath)
-                val fileReqBody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-                val part: MultipartBody.Part = MultipartBody.Part.
-                    createFormData("upload", file.name, fileReqBody)
 
-                imagesService.postImage(part).enqueue(object : Callback<ResponseBody>{
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+//                val file = File(toPath)
+//                val fileReqBody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+//                val part: MultipartBody.Part = MultipartBody.Part.
+//                    createFormData("upload", file.name, fileReqBody)
 
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        if (response.code() == 201) {
-
-                            // Get Image response Id
-                            val gson = Gson()
-                            val imageResponse = gson.fromJson(response.body()?.string(), ImageResponse::class.java)
-                            imageMediaId  = imageResponse.ids[0]
-                        }
-                    }
-                })
+//                imagesService.postImage(part).enqueue(object : Callback<ResponseBody>{
+//                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+//
+//                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                        if (response.code() == 201) {
+//
+//                            // Get Image response Id
+//                            val gson = Gson()
+//                            val imageResponse = gson.fromJson(response.body()?.string(), ImageResponse::class.java)
+//                            imageMediaId  = imageResponse.ids[0]
+//                        }
+//                    }
+//                })
 
                 mAddContactBinding.addContactImage.setImageURI(resultUri)
                 super.onActivityResult(requestCode, resultCode, data)
@@ -126,7 +141,7 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
         }
     }
 
-    override fun getGalleryImage() {
+    fun getGalleryImage() {
         val galleryIntent = Intent()
         galleryIntent.action = Intent.ACTION_GET_CONTENT
         galleryIntent.type = "image/*"
@@ -138,54 +153,54 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
     }
 
     override fun savePlaceholder() {
-        if (imageForDB == null) imageForDB = R.drawable.ic_person_placeholder.toString()
+       // if (imageForDB == null) imageForDB = R.drawable.ic_person_placeholder.toString()
     }
 
-    private fun saveContact() {
-
-        val firstName: String = add_contact_firstName.text.toString()
-        val lastName: String = add_contact_lastName.text.toString()
-        val phone: String = add_contact_phone.text.toString()
-        val email: String = add_contact_email.text.toString()
-        val notes: String = add_contact_notes.text.toString()
-
-        when {
-            firstName.trim().isEmpty() -> {
-                shortToast(R.string.empty_name)
-            }
-            lastName.trim().isEmpty() -> {
-                shortToast(R.string.empty_last_name)
-            }
-            phone.trim().isEmpty() -> {
-                shortToast(R.string.empty_phone)
-            }
-            email.trim().isEmpty() -> {
-                shortToast(R.string.empty_email)
-            }
-            notes.trim().isEmpty() -> {
-                shortToast(R.string.empty_notes)
-            }
-            else -> {
-                val newContactRoom = ContactsRoom(
-                    firstName = firstName, lastName = lastName, phone = phone,
-                    email = email, notes = notes, images = imageForDB)
-
-                addContactListViewModel.insert(newContactRoom)
-
-                val newContactApi = ContactsApi(
-                    firstName = firstName, lastName = lastName, phone = phone,
-                    email = email, notes = notes, images = "https://phonebookapp-683c.restdb.io/media/$imageMediaId")
-
-                contactsService.postNewContact(newContactApi).enqueue(object : Callback<ContactsApi> {
-                    override fun onFailure(call: Call<ContactsApi>, t: Throwable) {}
-
-                    override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {}
-                })
-
-                finish()
-            }
-        }
-    }
+//    private fun saveContact() {
+//
+//        val firstName: String = add_contact_firstName.text.toString()
+//        val lastName: String = add_contact_lastName.text.toString()
+//        val phone: String = add_contact_phone.text.toString()
+//        val email: String = add_contact_email.text.toString()
+//        val notes: String = add_contact_notes.text.toString()
+//
+//        when {
+//            firstName.trim().isEmpty() -> {
+//                shortToast(R.string.empty_name)
+//            }
+//            lastName.trim().isEmpty() -> {
+//                shortToast(R.string.empty_last_name)
+//            }
+//            phone.trim().isEmpty() -> {
+//                shortToast(R.string.empty_phone)
+//            }
+//            email.trim().isEmpty() -> {
+//                shortToast(R.string.empty_email)
+//            }
+//            notes.trim().isEmpty() -> {
+//                shortToast(R.string.empty_notes)
+//            }
+//            else -> {
+//                val newContactRoom = ContactsRoom(
+//                    firstName = firstName, lastName = lastName, phone = phone,
+//                    email = email, notes = notes, images = imageForDB)
+//
+//                addContactListViewModel.insert(newContactRoom)
+//
+//                val newContactApi = ContactsApi(
+//                    firstName = firstName, lastName = lastName, phone = phone,
+//                    email = email, notes = notes, images = "https://phonebookapp-683c.restdb.io/media/$imageMediaId")
+//
+//                contactsService.postNewContact(newContactApi).enqueue(object : Callback<ContactsApi> {
+//                    override fun onFailure(call: Call<ContactsApi>, t: Throwable) {}
+//
+//                    override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {}
+//                })
+//
+//                finish()
+//            }
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater: MenuInflater = menuInflater
@@ -196,7 +211,18 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save_contact -> {
-                saveContact()
+                //saveContact()
+                if (toPath == null) {
+                    toPath = R.drawable.ic_person_placeholder.toString()
+                } else {
+                    addContactListViewModel.uploadImage(toPath)
+                }
+
+                android.os.Handler().postDelayed({
+                    addContactListViewModel.saveContact()
+                }, 5000)
+
+                finish()
                 return true
             }
             else -> super.onOptionsItemSelected(item)

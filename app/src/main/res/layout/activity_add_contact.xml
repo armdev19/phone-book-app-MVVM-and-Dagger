@@ -31,7 +31,7 @@
             android:src="@drawable/ic_person_placeholder"
             app:civ_border_color="@color/colorPrimary"
             app:civ_border_width="5dp"
-            android:onClick="@{(view) -> addContactViewModel.getImage(view)}"/>
+            />
 
         <EditText
             android:id="@+id/add_contact_firstName"
@@ -43,6 +43,7 @@
             android:background="@drawable/bg_inputs"
             android:ems="10"
             android:hint="@string/add_contact_first_name"
+            android:text="@={addContactViewModel.mFirstName}"
             android:inputType="text"
             android:textColorHint="@color/dark_gray" />
 
@@ -56,6 +57,7 @@
             android:background="@drawable/bg_inputs"
             android:ems="10"
             android:hint="@string/add_contact_last_name"
+            android:text="@={addContactViewModel.mLastName}"
             android:inputType="text"
             android:textColorHint="@color/dark_gray" />
 
@@ -69,6 +71,7 @@
             android:background="@drawable/bg_inputs"
             android:ems="10"
             android:hint="@string/add_contact_phone"
+            android:text="@={addContactViewModel.mPhone}"
             android:inputType="phone"
             android:textColorHint="@color/dark_gray" />
 
@@ -82,6 +85,7 @@
             android:background="@drawable/bg_inputs"
             android:ems="10"
             android:hint="@string/add_contact_email"
+            android:text="@={addContactViewModel.mEmail}"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/dark_gray" />
 
@@ -95,8 +99,11 @@
             android:background="@drawable/bg_inputs"
             android:ems="10"
             android:hint="@string/add_contact_notes"
+            android:text="@={addContactViewModel.mNotes}"
             android:inputType="text"
             android:textColorHint="@color/dark_gray" />
+
+
 
     </RelativeLayout>
 
