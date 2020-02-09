@@ -39,8 +39,8 @@
     <string name="password_is_empty">Please enter your password</string>
     <string name="password_invalid">The password length must be at least 8. Please enter a valid password</string>
     <string name="no_internet">Failed to pass validation. Check the Internet and try again</string>
-
-
+    <string name="edit_contact_btn_text">Edit contact</string>
+    <string name="delete_contact_btn_text">Delete contact</string>
 
 
 </resources>

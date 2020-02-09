@@ -3,10 +3,7 @@ package com.infernal93.phonebookappmvvmanddagger.di.modules
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.infernal93.phonebookappmvvmanddagger.di.key.ViewModelKey
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.AddContactViewModel
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.AuthViewModel
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.ViewModelFactory
+import com.infernal93.phonebookappmvvmanddagger.viewmodels.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -36,6 +33,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(value = AddContactViewModel::class)
     abstract fun bindAddContactViewModel(addContactViewModel: AddContactViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(value = DetailsViewModel::class)
+    abstract fun bindDetailsViewModel(detailsViewModel: DetailsViewModel) : ViewModel
 
     }
 

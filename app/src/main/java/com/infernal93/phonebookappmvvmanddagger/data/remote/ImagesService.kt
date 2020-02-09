@@ -1,5 +1,6 @@
 package com.infernal93.phonebookappmvvmanddagger.data.remote
 
+import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -13,4 +14,7 @@ interface ImagesService {
     @Multipart
     @POST(value = "media")
     fun postImage(@Part photo: MultipartBody.Part): Call<ResponseBody>
+
+    @DELETE(value = "media/{id}")
+    fun deleteImage(@Path(value = "id") id: String?): Call<ContactsApi>
 }

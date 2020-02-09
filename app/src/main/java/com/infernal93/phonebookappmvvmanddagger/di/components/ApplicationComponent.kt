@@ -20,7 +20,8 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, NetworkModule::class, RoomModule::class, ViewModelModule::class])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, NetworkModule::class,
+                      RoomModule::class, ViewModelModule::class])
 interface ApplicationComponent : AndroidInjector<App> {
 
     @Component.Factory

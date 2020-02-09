@@ -14,6 +14,9 @@ data class ContactsRoom(
     @PrimaryKey(autoGenerate = true)
     var priority: Int? = null,
 
+    @ColumnInfo(name = "Id")
+    var _id: String = "",
+
     @ColumnInfo(name = "FirstName")
     var firstName : String? = null,
 

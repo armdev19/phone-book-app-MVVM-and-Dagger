@@ -66,12 +66,12 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
         } else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
             mAddContactListener?.showError(textResource = R.string.email_invalid)
         } else {
-            val newContactsRoom = ContactsRoom(firstName = mFirstName, lastName = mLastName, phone = mPhone,
+            val newContactsRoom = ContactsRoom(_id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
                 email = mEmail, notes = mNotes, images = apiRepository.imageDB)
 
             insert(newContactsRoom)
 
-            val newContactsApi = ContactsApi(firstName = mFirstName, lastName = mLastName, phone = mPhone,
+            val newContactsApi = ContactsApi(id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
                 email = mEmail, notes = mNotes, images = "https://phonebookapp-683c.restdb.io/media/${apiRepository.imageMediaId}")
 
 

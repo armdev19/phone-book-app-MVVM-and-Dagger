@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.OrientationHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.infernal93.phonebookappmvvmanddagger.view.adapters.ContactsAdapter
 import com.infernal93.phonebookappmvvmanddagger.R
-import com.infernal93.phonebookappmvvmanddagger.databinding.ContactListBinding
+import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityContactListBinding
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
 import dagger.android.support.DaggerAppCompatActivity
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ContactListActivity : DaggerAppCompatActivity() {
     private val TAG = "ContactListActivity"
 
-    private lateinit var mContactListBinding: ContactListBinding
+    private lateinit var mContactListBinding: ActivityContactListBinding
     private lateinit var mAdapter: ContactsAdapter
     private lateinit var mAuth: FirebaseAuth
 
@@ -35,7 +35,7 @@ class ContactListActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mContactListBinding = DataBindingUtil.setContentView(this@ContactListActivity, R.layout.contact_list)
+        mContactListBinding = DataBindingUtil.setContentView(this@ContactListActivity, R.layout.activity_contact_list)
 
         mAuth = FirebaseAuth.getInstance()
 

@@ -40,6 +40,21 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
         return imageDB
     }
 
+    fun deleteContact(id: String){
+        contactsService.deleteContact(id).enqueue(object : Callback<ContactsApi>{
+            override fun onFailure(call: Call<ContactsApi>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {
+
+            }
+
+        })
+    }
+
+
+
     fun uploadNewContactImage(toPath: String?) {
 
         val file = File(toPath)
@@ -59,6 +74,19 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
                     val imageResponse = gson.fromJson(response.body()?.string(), ImageResponse::class.java)
                     imageMediaId  = imageResponse.ids[0]
                 }
+            }
+
+        })
+    }
+
+    fun deleteImage(id: String?) {
+        imagesService.deleteImage(id).enqueue(object : Callback<ContactsApi>{
+            override fun onFailure(call: Call<ContactsApi>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {
+
             }
 
         })
