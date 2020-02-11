@@ -1,20 +1,17 @@
 package com.infernal93.phonebookappmvvmanddagger.view.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityDetailsBinding
-import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
-import com.infernal93.phonebookappmvvmanddagger.utils.shortToast
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.DetailsViewModel
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.ViewModelFactory
 import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_details.*
@@ -25,6 +22,8 @@ class DetailsActivity : DaggerAppCompatActivity() {
 
     private lateinit  var toolbar: Toolbar
     private lateinit var mDetailsBinding: ActivityDetailsBinding
+
+    lateinit var  clickedContactsRoom: ContactsRoom
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -53,12 +52,25 @@ class DetailsActivity : DaggerAppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
+        clickedContactsRoom = intent.getSerializableExtra("contact")
+                as ContactsRoom
+
         getDetailInfoContact()
+
+        edit_button.setOnClickListener {
+
+            val intent = Intent(this@DetailsActivity, UpdateDataActivity::class.java)
+            intent.putExtra("updateData", clickedContactsRoom)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+
+           // startActivity(Intent(this@DetailsActivity, UpdateDataActivity::class.java))
+
+        }
     }
 
     private fun getDetailInfoContact() {
-        val clickedContactsRoom: ContactsRoom = intent.getSerializableExtra("contact")
-                as ContactsRoom
+
 
         details_first_name.text = clickedContactsRoom.firstName
         details_last_name.text = clickedContactsRoom.lastName
@@ -66,25 +78,14 @@ class DetailsActivity : DaggerAppCompatActivity() {
         details_email.text = clickedContactsRoom.email
         details_notes.text = clickedContactsRoom.notes
 
-        //val clicked: ContactsApi = intent.getSerializableExtra("contact") as ContactsApi
-
-        edit_button.setOnClickListener {
-
-        }
-
         delete_button.setOnClickListener {
 
             val id: String? = clickedContactsRoom.images?.substring(42)
             Toast.makeText(this, "OK $id", Toast.LENGTH_SHORT).show()
 
             detailsViewModel.delete(clickedContactsRoom)
-
             detailsViewModel.deleteImage(id)
-
             detailsViewModel.deleteContact(clickedContactsRoom._id)
-
-
-
             finish()
         }
 
@@ -95,11 +96,9 @@ class DetailsActivity : DaggerAppCompatActivity() {
             .placeholder(R.drawable.ic_person_placeholder)
             .into(details_image)
         }
-
-//        Picasso.with(this@DetailsActivity).load(clickedContactsRoom.images)
-//            .placeholder(R.drawable.ic_person_placeholder)
-//            .into(details_image)
     }
+
+
 
     override fun onBackPressed() {
         super.onBackPressed()

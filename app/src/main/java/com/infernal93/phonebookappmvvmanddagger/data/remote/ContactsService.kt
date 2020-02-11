@@ -31,5 +31,4 @@ interface ContactsService {
         @Field(value = "notes") notes: String,
         @Field(value = "images") images: String): Call<ContactsApi>
 
-
 }

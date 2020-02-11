@@ -1,9 +1,6 @@
 package com.infernal93.phonebookappmvvmanddagger.di.modules
 
-import com.infernal93.phonebookappmvvmanddagger.view.activities.AddContactActivity
-import com.infernal93.phonebookappmvvmanddagger.view.activities.ContactListActivity
-import com.infernal93.phonebookappmvvmanddagger.view.activities.AuthActivity
-import com.infernal93.phonebookappmvvmanddagger.view.activities.DetailsActivity
+import com.infernal93.phonebookappmvvmanddagger.view.activities.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -23,6 +20,9 @@ abstract class ActivitiesBuilderModule {
     @ContributesAndroidInjector(modules = [FragmentsBuilderModule::class])
     abstract fun bindingLoginActivity() : AuthActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [FragmentsBuilderModule::class])
     abstract fun bindingDetailsActivity() : DetailsActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindingUpdateDataActivity() : UpdateDataActivity
 }

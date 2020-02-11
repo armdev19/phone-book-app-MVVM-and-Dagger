@@ -2,6 +2,7 @@ package com.infernal93.phonebookappmvvmanddagger.di.modules
 
 import com.infernal93.phonebookappmvvmanddagger.view.fragments.LoginFragment
 import com.infernal93.phonebookappmvvmanddagger.view.fragments.RegisterFragment
+import com.infernal93.phonebookappmvvmanddagger.view.fragments.UpdateDataFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -15,5 +16,8 @@ abstract class FragmentsBuilderModule {
     @ContributesAndroidInjector
     abstract fun bindingLoginFragment() : LoginFragment
     abstract fun bindingRegisterFragment() : RegisterFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindingUpdateDataFragment(): UpdateDataFragment
 
 }

@@ -20,8 +20,6 @@
     <string name="add_contact_notes">Please enter notes</string>
 
 
-
-
     <string name="plus">+</string>
     <string name="new_contact_saved">New contactsRoom saved</string>
     <string name="cancel_hint">Cancel</string>
@@ -32,7 +30,7 @@
     <string name="empty_email">Please enter Email address</string>
     <string name="empty_notes">Please enter Notes</string>
     <string name="email_invalid">Wrong email pattern. Please enter a valid email address</string>
-    <string name="phone_invalid">Wrong phone pattern. Please enter a valid phone number</string>
+    <string name="phone_invalid">Wrong phone pattern. Please enter a valid phone number and country code</string>
 
     <string name="login_is_empty">Please enter your email address</string>
     <string name="login_invalid">Wrong email pattern. Please enter a valid email address</string>
@@ -41,6 +39,14 @@
     <string name="no_internet">Failed to pass validation. Check the Internet and try again</string>
     <string name="edit_contact_btn_text">Edit contact</string>
     <string name="delete_contact_btn_text">Delete contact</string>
+
+
+    <string name="new_first_name_txt">New First Name</string>
+    <string name="new_last_name_txt">New Last Name</string>
+    <string name="new_phone_number_txt">New Phone Number</string>
+    <string name="new_email_address_txt">New Email Address</string>
+    <string name="new_notes_txt">New Notes</string>
+    <string name="save_new_data_btn_text">Save new data</string>
 
 
 </resources>

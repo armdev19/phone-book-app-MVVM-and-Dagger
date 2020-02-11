@@ -39,6 +39,11 @@ abstract class ViewModelModule {
     @ViewModelKey(value = DetailsViewModel::class)
     abstract fun bindDetailsViewModel(detailsViewModel: DetailsViewModel) : ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(value = UpdateDataViewModel::class)
+    abstract fun bindUpdateDataViewModel(updateDataViewModel: UpdateDataViewModel) : ViewModel
+
     }
 
 

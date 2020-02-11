@@ -22,15 +22,12 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
 
     var mFirstName: String = ""
     var mLastName: String = ""
-    var mPhone: String = ""
+    var mPhone: String = "+"
     var mEmail: String = ""
     var mNotes: String = ""
 
     var mAddContactListener: AddContactListener? = null
 
-//    fun getImage(view: View) {
-//        mAddContactListener?.getGalleryImage()
-//    }
 
     fun insert(contactsRoom: ContactsRoom){
         roomRepository.insert(contactsRoom)
@@ -46,9 +43,8 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
         apiRepository.ImageDb(imageForDb)
     }
 
+    fun uploadImageAndContact(toPath: String?){
 
-
-    fun saveContact() {
         mAddContactListener?.savePlaceholder()
 
         if (mFirstName.trim().isEmpty()) {
@@ -75,18 +71,42 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
                 email = mEmail, notes = mNotes, images = "https://phonebookapp-683c.restdb.io/media/${apiRepository.imageMediaId}")
 
 
+            apiRepository.uploadNewImageAndContact(toPath, newContactsApi)
+
+        }
+    }
+
+
+
+    fun saveContact() {
+        mAddContactListener?.savePlaceholder()
+
+        if (mFirstName.trim().isEmpty()) {
+            mAddContactListener?.showError(textResource = R.string.empty_name)
+        } else if (mLastName.trim().isEmpty()) {
+            mAddContactListener?.showError(textResource = R.string.empty_last_name)
+        } else if (mPhone.trim().isEmpty()) {
+            mAddContactListener?.showError(textResource = R.string.empty_phone)
+        } else if (mPhone.length < 12) {
+            mAddContactListener?.showError(textResource = R.string.phone_invalid)
+        } else if (mEmail.trim().isEmpty()) {
+            mAddContactListener?.showError(textResource = R.string.empty_email)
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+            mAddContactListener?.showError(textResource = R.string.email_invalid)
+        } else if (mNotes.trim().isEmpty()) {
+            mAddContactListener?.showError(textResource = R.string.empty_notes)
+        } else {
+            val newContactsRoom = ContactsRoom(_id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
+                email = mEmail, notes = mNotes, images = apiRepository.imageDB)
+
+            insert(newContactsRoom)
+
+            val newContactsApi = ContactsApi(id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
+                email = mEmail, notes = mNotes, images = "https://phonebookapp-683c.restdb.io/media/${apiRepository.imageMediaId}")
+
+
             apiRepository.uploadNewContact(newContactsApi)
 
-//                contactsService.postNewContact(newContactsApi).enqueue(object : Callback<ContactsApi>{
-//                    override fun onFailure(call: Call<ContactsApi>, t: Throwable) {
-//
-//                    }
-//
-//                    override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {
-//
-//                    }
-//
-//                })
         }
 
     }

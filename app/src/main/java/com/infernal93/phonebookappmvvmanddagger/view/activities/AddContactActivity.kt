@@ -141,7 +141,7 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
         }
     }
 
-    fun getGalleryImage() {
+    private fun getGalleryImage() {
         val galleryIntent = Intent()
         galleryIntent.action = Intent.ACTION_GET_CONTENT
         galleryIntent.type = "image/*"
@@ -213,14 +213,18 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
             R.id.save_contact -> {
                 //saveContact()
                 if (toPath == null) {
-                    toPath = R.drawable.ic_person_placeholder.toString()
+                    //toPath = R.drawable.ic_person_placeholder.toString()
+                    addContactListViewModel.saveContact()
+
                 } else {
+                    //addContactListViewModel.uploadImage(toPath)
                     addContactListViewModel.uploadImage(toPath)
+                    addContactListViewModel.saveContact()
                 }
 
-                android.os.Handler().postDelayed({
-                    addContactListViewModel.saveContact()
-                }, 5000)
+//                android.os.Handler().postDelayed({
+//                    addContactListViewModel.saveContact()
+//                }, 5000)
 
                 finish()
                 return true
