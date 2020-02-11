@@ -15,7 +15,9 @@ interface ContactsService {
     fun getContactModel(): Single<List<ContactsRoom>>
 
     @POST(value = "rest/contacts")
-    fun postNewContact(@Body contactsApi: ContactsApi): Call<ContactsApi>
+    fun postNewContact(@Body contactsApi: ContactsApi): Single<ContactsApi>
+
+
 
     @DELETE(value = "rest/contacts/{id}")
     fun deleteContact(@Path(value = "id") id: String): Call<ContactsApi>

@@ -78,7 +78,7 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
 
 
 
-    fun saveContact() {
+    fun saveContact(toPath: String?) {
         mAddContactListener?.savePlaceholder()
 
         if (mFirstName.trim().isEmpty()) {
@@ -96,16 +96,21 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
         } else if (mNotes.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_notes)
         } else {
+
+
             val newContactsRoom = ContactsRoom(_id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
                 email = mEmail, notes = mNotes, images = apiRepository.imageDB)
 
             insert(newContactsRoom)
 
+
+
             val newContactsApi = ContactsApi(id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
                 email = mEmail, notes = mNotes, images = "https://phonebookapp-683c.restdb.io/media/${apiRepository.imageMediaId}")
 
 
-            apiRepository.uploadNewContact(newContactsApi)
+
+            apiRepository.uploadNewImageAndContact(toPath, newContactsApi)
 
         }
 

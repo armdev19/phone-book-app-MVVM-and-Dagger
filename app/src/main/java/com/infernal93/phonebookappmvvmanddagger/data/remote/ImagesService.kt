@@ -17,6 +17,7 @@ interface ImagesService {
     @POST(value = "media")
     fun postImage(@Part photo: MultipartBody.Part): Single<Response<ResponseBody>>
 
+
     @DELETE(value = "media/{id}")
     fun deleteImage(@Path(value = "id") id: String?): Call<ContactsApi>
 }

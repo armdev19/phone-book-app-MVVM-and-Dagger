@@ -213,13 +213,16 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
             R.id.save_contact -> {
                 //saveContact()
                 if (toPath == null) {
-                    //toPath = R.drawable.ic_person_placeholder.toString()
-                    addContactListViewModel.saveContact()
+                    toPath = R.drawable.ic_person_placeholder.toString()
+                   // addContactListViewModel.saveContact()
 
                 } else {
                     //addContactListViewModel.uploadImage(toPath)
-                    addContactListViewModel.uploadImage(toPath)
-                    addContactListViewModel.saveContact()
+                   // addContactListViewModel.uploadImage(toPath)
+                   // addContactListViewModel.saveContact()
+
+                    //addContactListViewModel.uploadImageAndContact(toPath)
+                    addContactListViewModel.saveContact(toPath)
                 }
 
 //                android.os.Handler().postDelayed({

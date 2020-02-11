@@ -24,6 +24,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.RuntimeException
 
 import javax.inject.Inject
 
@@ -68,7 +69,7 @@ class ApiRepository @Inject constructor(
     }
 
 
-    fun uploadNewContactImage(toPath: String?) {
+    fun uploadNewContactImage(toPath: String?): String {
 
         val file = File(toPath)
         val fileReqBody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
@@ -87,24 +88,52 @@ class ApiRepository @Inject constructor(
 //                    val imageResponse =
 //                        gson.fromJson(response.body()?.string(), ImageResponse::class.java)
 //                    imageMediaId = imageResponse.ids[0]
+//
+//
 //                }
 //            }
 //
 //        })
+
+        return imageMediaId
     }
 
-    fun uploadNewImageAndContact(toPath: String?, newContactApi: ContactsApi) {
+
+
+
+        fun uploadNewImageAndContact(toPath: String?, newContactApi: ContactsApi) {
         val file = File(toPath)
         val fileReqBody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
         val part: MultipartBody.Part =
             MultipartBody.Part.createFormData("upload", file.name, fileReqBody)
 
         val disposable = CompositeDisposable()
-        disposable.add(imagesService.postImage(part)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ },
-                {}))
+        disposable.add(
+            imagesService.postImage(part)
+                .flatMap { response ->
+                    response.run {
+                        if (code() == 201) {
+                            val gson = Gson()
+                            val imageResponse = gson.fromJson(body()?.string(), ImageResponse::class.java)
+                            imageMediaId = imageResponse.ids[0]
+                            contactsService.postNewContact(newContactApi)
+                        } else {
+                            throw RuntimeException("invalid response")
+                        }
+                    }
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ it -> }, Throwable::printStackTrace))
+
+
+
+//        val disposable = CompositeDisposable()
+//        disposable.add(imagesService.postImage(part)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({ },
+//                {}))
 //            .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
 //                override fun onSuccess(response: Response<ResponseBody>) {
 //                    if (response.code() == 201) {
@@ -169,18 +198,16 @@ class ApiRepository @Inject constructor(
         })
     }
 
-    fun uploadNewContact(newContactApi: ContactsApi) {
-        contactsService.postNewContact(newContactApi).enqueue(object : Callback<ContactsApi> {
-            override fun onFailure(call: Call<ContactsApi>, t: Throwable) {}
+//    fun uploadNewContact(newContactApi: ContactsApi) {
+//        contactsService.postNewContact(newContactApi).enqueue(object : Callback<ContactsApi> {
+//            override fun onFailure(call: Call<ContactsApi>, t: Throwable) {}
+//
+//            override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {}
+//        })
+//    }
 
-            override fun onResponse(call: Call<ContactsApi>, response: Response<ContactsApi>) {}
-        })
-    }
-
-    fun updateContact(
-        id: String, name: String, lastName: String,
-        phone: String, email: String, notes: String, images: String
-    ) {
+    fun updateContact(id: String, name: String, lastName: String,
+        phone: String, email: String, notes: String, images: String) {
         contactsService.updateContact(id, name, lastName, phone, email, notes, images)
             .enqueue(object : Callback<ContactsApi> {
                 override fun onFailure(call: Call<ContactsApi>, t: Throwable) {
