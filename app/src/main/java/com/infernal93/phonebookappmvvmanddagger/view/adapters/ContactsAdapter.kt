@@ -1,6 +1,5 @@
 package com.infernal93.phonebookappmvvmanddagger.view.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -17,8 +16,8 @@ import de.hdodenhof.circleimageview.CircleImageView
 /**
  * Created by Armen Mkhitaryan on 03.01.2020.
  */
-class ContactsAdapter (private val context: Context, private val mContactsList: ArrayList<ContactsRoom> = ArrayList())
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ContactsAdapter (private val context: Context, private val mContactsList: ArrayList<ContactsRoom> 
+    = ArrayList()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setupContacts(contactsList: ArrayList<ContactsRoom>) {
         mContactsList.clear()
@@ -41,7 +40,6 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ContactsViewHolder) {
             holder.bind(contactsModel = mContactsList[position])
-
             holder.itemView.setOnClickListener {
                 val contactsModel: ContactsRoom = mContactsList[position]
                 val intent = Intent(context, DetailsActivity::class.java)
@@ -66,13 +64,6 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
                     .placeholder(R.drawable.ic_person_placeholder)
                     .into(mContactIcon)
             }
-//            contactsModel.images?.let { url ->
-//                Picasso.with(itemView.context).load(url)
-//                    .placeholder(R.drawable.ic_person_placeholder)
-//                    .error(R.drawable.ic_person_placeholder)
-//                    .into(mContactIcon)
-//                    }
-
             mContactFirstName.text =  contactsModel.firstName
             mContactPhone.text = contactsModel.phone
         }

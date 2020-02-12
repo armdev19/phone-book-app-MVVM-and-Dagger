@@ -21,7 +21,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class ContactListActivity : DaggerAppCompatActivity() {
-    private val TAG = "ContactListActivity"
 
     private lateinit var mContactListBinding: ActivityContactListBinding
     private lateinit var mAdapter: ContactsAdapter
@@ -46,8 +45,6 @@ class ContactListActivity : DaggerAppCompatActivity() {
             val intent = Intent(this@ContactListActivity, AddContactActivity::class.java)
             startActivity(intent)
         }
-
-        //(applicationContext as App).appComponent.inject(this@ContactListActivity)
 
         contactListViewModel = ViewModelProviders.of(this@ContactListActivity, factory).get(ContactListViewModel::class.java)
 
@@ -92,6 +89,5 @@ class ContactListActivity : DaggerAppCompatActivity() {
             startActivity(Intent(this@ContactListActivity, AuthActivity::class.java))
             finish()
         }
-
     }
 }

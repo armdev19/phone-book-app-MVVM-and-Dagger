@@ -9,7 +9,6 @@
     <string name="details_toolbar_title">Details info</string>
     <string name="contacts_toolbar_title">PhoneBook app</string>
 
-
     <string name="save_hint">Save</string>
     <string name="add_contact_title">Add Contact</string>
 
@@ -18,7 +17,6 @@
     <string name="add_contact_phone">Please enter phone number</string>
     <string name="add_contact_email">Please enter email</string>
     <string name="add_contact_notes">Please enter notes</string>
-
 
     <string name="plus">+</string>
     <string name="new_contact_saved">New contactsRoom saved</string>
@@ -40,13 +38,14 @@
     <string name="edit_contact_btn_text">Edit contact</string>
     <string name="delete_contact_btn_text">Delete contact</string>
 
-
     <string name="new_first_name_txt">New First Name</string>
     <string name="new_last_name_txt">New Last Name</string>
     <string name="new_phone_number_txt">New Phone Number</string>
     <string name="new_email_address_txt">New Email Address</string>
     <string name="new_notes_txt">New Notes</string>
     <string name="save_new_data_btn_text">Save new data</string>
+    <string name="test_login_txt">Login: test1@gmail.com</string>
+    <string name="test_password_txt">Password: 12345678</string>
 
 
 </resources>

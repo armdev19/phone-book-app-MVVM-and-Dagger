@@ -8,13 +8,13 @@
     <data>
         <variable
             name="updateDataVieModel"
-            type="com.infernal93.phonebookappmvvmanddagger.viewmodels.UpdateDataViewModel" />
+            type="com.infernal93.phonebookappmvvmanddagger.viewmodels.EditContactViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activities.UpdateDataActivity">
+        tools:context=".view.activities.EditContactActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_inputs"
                 android:ems="10"
-
+                android:hint="@string/new_first_name_txt"
                 android:inputType="text"
                 android:textColorHint="@color/dark_gray"
                 android:layout_below="@id/new_image"
@@ -115,9 +115,6 @@
                 android:textAllCaps="false"
                 android:text="@string/save_new_data_btn_text"
                 android:layout_below="@id/new_notes"/>
-
         </RelativeLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

@@ -13,11 +13,9 @@ import javax.inject.Inject
  */
 
 class AuthViewModel @Inject constructor(private var mAuth: FirebaseAuth) : ViewModel() {
-    private val TAG = "AuthViewModel"
 
     var mEmail: String = ""
     var mPassword: String = ""
-
     var loginListener: LoginListener? = null
 
     fun login(view: View) {

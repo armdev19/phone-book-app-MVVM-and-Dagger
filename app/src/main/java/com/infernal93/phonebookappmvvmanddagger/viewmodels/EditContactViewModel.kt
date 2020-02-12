@@ -3,17 +3,17 @@ package com.infernal93.phonebookappmvvmanddagger.viewmodels
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import com.infernal93.phonebookappmvvmanddagger.R
-import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.repository.ApiRepository
 import com.infernal93.phonebookappmvvmanddagger.repository.RoomRepository
-import com.infernal93.phonebookappmvvmanddagger.view.interfaces.UpdateDataListener
+import com.infernal93.phonebookappmvvmanddagger.view.interfaces.EditContactListener
 import javax.inject.Inject
 
 /**
  * Created by Armen Mkhitaryan on 10.02.2020.
  */
-class UpdateDataViewModel @Inject constructor(private val apiRepository: ApiRepository, private val roomRepository: RoomRepository) : ViewModel() {
+class EditContactViewModel @Inject constructor(private val apiRepository: ApiRepository,
+                                               private val roomRepository: RoomRepository) : ViewModel() {
 
     var mFirstName: String = ""
     var mLastName: String = ""
@@ -21,7 +21,7 @@ class UpdateDataViewModel @Inject constructor(private val apiRepository: ApiRepo
     var mEmail: String = ""
     var mNotes: String = ""
 
-    var mUpdateDataListener: UpdateDataListener? = null
+    var mEditContactListener: EditContactListener? = null
 
     fun uploadImageForDb(imageForDb: String) {
         apiRepository.NewImageDb(imageForDb)
@@ -34,19 +34,19 @@ class UpdateDataViewModel @Inject constructor(private val apiRepository: ApiRepo
     fun updateContact(id: String) {
 
         if (mFirstName.trim().isEmpty()) {
-            mUpdateDataListener?.showError(textResource = R.string.empty_name)
+            mEditContactListener?.showError(textResource = R.string.empty_name)
         } else if (mLastName.trim().isEmpty()) {
-            mUpdateDataListener?.showError(textResource = R.string.empty_last_name)
+            mEditContactListener?.showError(textResource = R.string.empty_last_name)
         } else if (mPhone.trim().isEmpty()) {
-            mUpdateDataListener?.showError(textResource = R.string.empty_phone)
+            mEditContactListener?.showError(textResource = R.string.empty_phone)
         } else if (mPhone.length < 12) {
-            mUpdateDataListener?.showError(textResource = R.string.phone_invalid)
+            mEditContactListener?.showError(textResource = R.string.phone_invalid)
         } else if (mEmail.trim().isEmpty()) {
-            mUpdateDataListener?.showError(textResource = R.string.empty_email)
+            mEditContactListener?.showError(textResource = R.string.empty_email)
         } else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            mUpdateDataListener?.showError(textResource = R.string.email_invalid)
+            mEditContactListener?.showError(textResource = R.string.email_invalid)
         } else if (mNotes.trim().isEmpty()) {
-            mUpdateDataListener?.showError(textResource = R.string.empty_notes)
+            mEditContactListener?.showError(textResource = R.string.empty_notes)
         } else {
 
             val updateContactsRoom = ContactsRoom(
@@ -58,11 +58,7 @@ class UpdateDataViewModel @Inject constructor(private val apiRepository: ApiRepo
             apiRepository.updateContact(id = id, name = mFirstName, lastName = mLastName, phone = mPhone, email = mEmail,
                 notes = mNotes, images = apiRepository.newImageDB)
 
-
-
             update(updateContactsRoom)
         }
-
     }
-
 }

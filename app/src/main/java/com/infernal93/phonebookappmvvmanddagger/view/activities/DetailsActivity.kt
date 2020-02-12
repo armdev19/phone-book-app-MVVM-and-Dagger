@@ -2,7 +2,6 @@ package com.infernal93.phonebookappmvvmanddagger.view.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -18,11 +17,9 @@ import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 
 class DetailsActivity : DaggerAppCompatActivity() {
-    private val TAG = "DetailsActivity"
 
     private lateinit  var toolbar: Toolbar
     private lateinit var mDetailsBinding: ActivityDetailsBinding
-
     lateinit var  clickedContactsRoom: ContactsRoom
 
     @Inject
@@ -32,14 +29,12 @@ class DetailsActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         mDetailsBinding = DataBindingUtil.setContentView(this@DetailsActivity, R.layout.activity_details)
 
         detailsViewModel = ViewModelProviders.of(this@DetailsActivity, factory).get(DetailsViewModel::class.java)
 
         mDetailsBinding.detailsViewModel = detailsViewModel
 
-        // Toolbar implementation
         toolbar = findViewById(R.id.toolbar_details_info)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -55,39 +50,23 @@ class DetailsActivity : DaggerAppCompatActivity() {
         clickedContactsRoom = intent.getSerializableExtra("contact")
                 as ContactsRoom
 
-        getDetailInfoContact()
-
         edit_button.setOnClickListener {
-
-            val intent = Intent(this@DetailsActivity, UpdateDataActivity::class.java)
-            intent.putExtra("updateData", clickedContactsRoom)
-            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
-            startActivity(intent)
-
-           // startActivity(Intent(this@DetailsActivity, UpdateDataActivity::class.java))
-
+            sendToEditContactActivity()
         }
+
+        delete_button.setOnClickListener {
+            deleteContact()
+        }
+
+        getDetailInfoContact()
     }
 
     private fun getDetailInfoContact() {
-
-
         details_first_name.text = clickedContactsRoom.firstName
         details_last_name.text = clickedContactsRoom.lastName
         details_phone.text = clickedContactsRoom.phone
         details_email.text = clickedContactsRoom.email
         details_notes.text = clickedContactsRoom.notes
-
-        delete_button.setOnClickListener {
-
-            val id: String? = clickedContactsRoom.images?.substring(42)
-            Toast.makeText(this, "OK $id", Toast.LENGTH_SHORT).show()
-
-            detailsViewModel.delete(clickedContactsRoom)
-            detailsViewModel.deleteImage(id)
-            detailsViewModel.deleteContact(clickedContactsRoom._id)
-            finish()
-        }
 
         if (clickedContactsRoom.images.isNullOrEmpty()) {
             details_image.setImageResource(R.drawable.ic_person_placeholder)
@@ -98,7 +77,31 @@ class DetailsActivity : DaggerAppCompatActivity() {
         }
     }
 
+    private fun deleteContact(){
+        var id: String? = ""
 
+        if (!clickedContactsRoom.images.isNullOrEmpty()) {
+            id = clickedContactsRoom.images?.substringAfterLast(delimiter = "/")
+        }
+
+        if (id.isNullOrEmpty()) {
+            detailsViewModel.delete(clickedContactsRoom)
+            detailsViewModel.deleteContact(clickedContactsRoom._id)
+            finish()
+        } else {
+            detailsViewModel.delete(clickedContactsRoom)
+            detailsViewModel.deleteImage(id)
+            detailsViewModel.deleteContact(clickedContactsRoom._id)
+            finish()
+        }
+    }
+
+    private fun sendToEditContactActivity(){
+        val intent = Intent(this@DetailsActivity, EditContactActivity::class.java)
+        intent.putExtra("updateData", clickedContactsRoom)
+        intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+        startActivity(intent)
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()

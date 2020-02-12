@@ -16,70 +16,55 @@ import javax.inject.Inject
  * Created by Armen Mkhitaryan on 02.02.2020.
  */
 class AddContactViewModel @Inject constructor(private val roomRepository: RoomRepository,
-                                              private val contactsService: ContactsService,
-                                              private val imagesService: ImagesService,
-                                              private val apiRepository: ApiRepository): ViewModel() {
+                private val apiRepository: ApiRepository): ViewModel() {
 
     var mFirstName: String = ""
     var mLastName: String = ""
-    var mPhone: String = "+"
+    var mPhone: String = ""
     var mEmail: String = ""
     var mNotes: String = ""
 
     var mAddContactListener: AddContactListener? = null
 
 
-    fun insert(contactsRoom: ContactsRoom){
+    private fun insert(contactsRoom: ContactsRoom){
         roomRepository.insert(contactsRoom)
-    }
-
-
-
-    fun uploadImage(toPath: String?){
-        apiRepository.uploadNewContactImage(toPath)
     }
 
     fun uploadImageForDb(imageForDb: String) {
         apiRepository.ImageDb(imageForDb)
     }
 
-    fun uploadImageAndContact(toPath: String?){
-
-        mAddContactListener?.savePlaceholder()
-
+    fun saveContact() {
         if (mFirstName.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_name)
         } else if (mLastName.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_last_name)
         } else if (mPhone.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_phone)
+        } else if (mPhone.length < 12) {
+            mAddContactListener?.showError(textResource = R.string.phone_invalid)
         } else if (mEmail.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_email)
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+            mAddContactListener?.showError(textResource = R.string.email_invalid)
         } else if (mNotes.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_notes)
-        } else if (!Patterns.PHONE.matcher(mPhone).matches()) {
-            mAddContactListener?.showError(textResource = R.string.phone_invalid)
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            mAddContactListener?.showError(textResource = R.string.email_invalid)
         } else {
+
             val newContactsRoom = ContactsRoom(_id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
                 email = mEmail, notes = mNotes, images = apiRepository.imageDB)
 
             insert(newContactsRoom)
 
             val newContactsApi = ContactsApi(id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
-                email = mEmail, notes = mNotes, images = "https://phonebookapp-683c.restdb.io/media/${apiRepository.imageMediaId}")
+                email = mEmail, notes = mNotes, images = "")
 
-
-            apiRepository.uploadNewImageAndContact(toPath, newContactsApi)
-
+            apiRepository.uploadNewContact(newContactsApi)
         }
     }
 
-
-
-    fun saveContact(toPath: String?) {
-        mAddContactListener?.savePlaceholder()
+    fun saveImageAndContact(toPath: String?) {
 
         if (mFirstName.trim().isEmpty()) {
             mAddContactListener?.showError(textResource = R.string.empty_name)
@@ -97,24 +82,16 @@ class AddContactViewModel @Inject constructor(private val roomRepository: RoomRe
             mAddContactListener?.showError(textResource = R.string.empty_notes)
         } else {
 
-
             val newContactsRoom = ContactsRoom(_id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
                 email = mEmail, notes = mNotes, images = apiRepository.imageDB)
 
             insert(newContactsRoom)
 
-
-
             val newContactsApi = ContactsApi(id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
-                email = mEmail, notes = mNotes, images = "https://phonebookapp-683c.restdb.io/media/${apiRepository.imageMediaId}")
-
-
+                email = mEmail, notes = mNotes, images = "")
 
             apiRepository.uploadNewImageAndContact(toPath, newContactsApi)
 
         }
-
     }
-
-
 }

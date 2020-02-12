@@ -19,7 +19,6 @@
             android:id="@+id/toolbar_contacts"
             style="@style/Toolbar"/>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_contacts"
             android:layout_width="match_parent"

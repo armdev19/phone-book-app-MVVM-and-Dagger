@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="addContactViewModel"
             type="com.infernal93.phonebookappmvvmanddagger.viewmodels.AddContactViewModel" />
@@ -102,9 +101,5 @@
             android:text="@={addContactViewModel.mNotes}"
             android:inputType="text"
             android:textColorHint="@color/dark_gray" />
-
-
-
     </RelativeLayout>
-
 </layout>

@@ -23,9 +23,9 @@ interface ContactDao {
     @Delete
     fun delete(contactsRoom: ContactsRoom)
 
-    @Query("DELETE FROM  custom_table")
+    @Query(value = "DELETE FROM  custom_table")
     fun deleteAllContacts()
 
-    @Query("SELECT * FROM custom_table ORDER BY priority DESC")
+    @Query(value = "SELECT * FROM custom_table ORDER BY priority DESC")
     fun getAllContact(): LiveData<List<ContactsRoom>>
 }

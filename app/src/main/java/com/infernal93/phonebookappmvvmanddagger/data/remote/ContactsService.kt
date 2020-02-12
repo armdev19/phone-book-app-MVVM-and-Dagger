@@ -17,10 +17,8 @@ interface ContactsService {
     @POST(value = "rest/contacts")
     fun postNewContact(@Body contactsApi: ContactsApi): Single<ContactsApi>
 
-
-
     @DELETE(value = "rest/contacts/{id}")
-    fun deleteContact(@Path(value = "id") id: String): Call<ContactsApi>
+    fun deleteContact(@Path(value = "id") id: String): Single<ContactsApi>
 
     @FormUrlEncoded
     @PUT(value = "rest/contacts/{id}")
@@ -32,5 +30,4 @@ interface ContactsService {
         @Field(value = "email") email: String,
         @Field(value = "notes") notes: String,
         @Field(value = "images") images: String): Call<ContactsApi>
-
 }

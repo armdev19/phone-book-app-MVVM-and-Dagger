@@ -2,33 +2,29 @@ package com.infernal93.phonebookappmvvmanddagger.view.activities
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.infernal93.phonebookappmvvmanddagger.R
-import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityUpdateDataBinding
+import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityEditContactBinding
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
-import com.infernal93.phonebookappmvvmanddagger.view.interfaces.UpdateDataListener
-import com.infernal93.phonebookappmvvmanddagger.viewmodels.UpdateDataViewModel
+import com.infernal93.phonebookappmvvmanddagger.view.interfaces.EditContactListener
+import com.infernal93.phonebookappmvvmanddagger.viewmodels.EditContactViewModel
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_details.*
-import kotlinx.android.synthetic.main.activity_update_data.*
+import kotlinx.android.synthetic.main.activity_edit_contact.*
 import javax.inject.Inject
 
-class UpdateDataActivity : DaggerAppCompatActivity(), UpdateDataListener {
-    private val TAG = "UpdateDataActivity"
+class EditContactActivity : DaggerAppCompatActivity(), EditContactListener {
 
-    private lateinit var mUpdateDataBinding: ActivityUpdateDataBinding
+    private lateinit var mEditContactBinding: ActivityEditContactBinding
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    lateinit var mUpdateViewModel: UpdateDataViewModel
+    lateinit var mUpdateViewModel: EditContactViewModel
 
     lateinit var  oldDataContactsRoom: ContactsRoom
 
@@ -40,30 +36,27 @@ class UpdateDataActivity : DaggerAppCompatActivity(), UpdateDataListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mEditContactBinding = DataBindingUtil.setContentView(this@EditContactActivity, R.layout.activity_edit_contact)
 
-        mUpdateDataBinding = DataBindingUtil.setContentView(this@UpdateDataActivity, R.layout.activity_update_data)
+        mUpdateViewModel = ViewModelProviders.of(this@EditContactActivity, factory).get(EditContactViewModel::class.java)
 
-        mUpdateViewModel = ViewModelProviders.of(this@UpdateDataActivity, factory).get(UpdateDataViewModel::class.java)
-
-        mUpdateDataBinding.updateDataVieModel = mUpdateViewModel
-
-        mUpdateViewModel.mUpdateDataListener = this
+        mEditContactBinding.updateDataVieModel = mUpdateViewModel
+        mUpdateViewModel.mEditContactListener = this
 
 
         save_newData_btn.setOnClickListener {
             update()
-            back()
+            sendToContactListActivity()
+        }
+
+        new_image.setOnClickListener {
+            getGalleryImage()
         }
 
         oldDataContactsRoom = intent.getSerializableExtra("updateData")
                 as ContactsRoom
 
         showOldData()
-
-        new_image.setOnClickListener {
-            getGalleryImage()
-        }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -74,7 +67,7 @@ class UpdateDataActivity : DaggerAppCompatActivity(), UpdateDataListener {
 
             CropImage.activity(imageUri)
                 .setAspectRatio(1, 1)
-                .start(this@UpdateDataActivity)
+                .start(this@EditContactActivity)
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -94,7 +87,7 @@ class UpdateDataActivity : DaggerAppCompatActivity(), UpdateDataListener {
 
                 toPath = result.uri.path
 
-                mUpdateDataBinding.newImage.setImageURI(resultUri)
+                mEditContactBinding.newImage.setImageURI(resultUri)
             }
         }
     }
@@ -116,23 +109,21 @@ class UpdateDataActivity : DaggerAppCompatActivity(), UpdateDataListener {
         if (oldDataContactsRoom.images.isNullOrEmpty()) {
             new_image.setImageResource(R.drawable.ic_person_placeholder)
         } else {
-            Picasso.with(this@UpdateDataActivity).load(oldDataContactsRoom.images)
+            Picasso.with(this@EditContactActivity).load(oldDataContactsRoom.images)
                 .placeholder(R.drawable.ic_person_placeholder)
                 .into(new_image)
         }
     }
 
-    private fun back(){
-        //onBackPressed()
+    private fun sendToContactListActivity(){
         startActivity(Intent(this, ContactListActivity::class.java))
-        //finish()
     }
 
     override fun showError(textResource: Int) {
-        Toast.makeText(this@UpdateDataActivity, getString(textResource), Toast.LENGTH_LONG).show()
+        Toast.makeText(this@EditContactActivity, getString(textResource), Toast.LENGTH_LONG).show()
     }
 
-    fun update(){
+    private fun update(){
         if (toPath == null) {
             toPath = R.drawable.ic_person_placeholder.toString()
         }
@@ -148,6 +139,4 @@ class UpdateDataActivity : DaggerAppCompatActivity(), UpdateDataListener {
 
         mUpdateViewModel.updateContact(oldDataContactsRoom._id)
     }
-
-
 }

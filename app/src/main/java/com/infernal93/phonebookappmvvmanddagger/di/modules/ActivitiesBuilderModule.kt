@@ -12,17 +12,17 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivitiesBuilderModule {
 
     @ContributesAndroidInjector
-    abstract fun bindingContactListActivity() : ContactListActivity
+    abstract fun bindContactListActivity() : ContactListActivity
 
     @ContributesAndroidInjector
-    abstract fun bindingAddContactActivity() : AddContactActivity
-
-    @ContributesAndroidInjector(modules = [FragmentsBuilderModule::class])
-    abstract fun bindingLoginActivity() : AuthActivity
-
-    @ContributesAndroidInjector(modules = [FragmentsBuilderModule::class])
-    abstract fun bindingDetailsActivity() : DetailsActivity
+    abstract fun bindAddContactActivity() : AddContactActivity
 
     @ContributesAndroidInjector
-    abstract fun bindingUpdateDataActivity() : UpdateDataActivity
+    abstract fun bindDetailsActivity() : DetailsActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindEditContactActivity() : EditContactActivity
+
+    @ContributesAndroidInjector(modules = [FragmentsBuilderModule::class])
+    abstract fun bindAuthActivity() : AuthActivity
 }

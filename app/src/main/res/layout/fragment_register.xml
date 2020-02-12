@@ -14,19 +14,18 @@
             android:id="@+id/login_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login: test1@gmail.com"
+            android:text="@string/test_login_txt"
             android:textSize="18sp"
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="300dp"
-            />
+            android:layout_marginTop="300dp" />
 
         <TextView
             android:id="@+id/password_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password: 12345678"
+            android:text="@string/test_password_txt"
             android:textSize="18sp"
             android:textColor="#000000"
             android:textStyle="bold"
@@ -34,8 +33,5 @@
             android:layout_marginTop="20dp"
             android:layout_below="@id/login_text"/>
 
-
-
     </RelativeLayout>
-
 </FrameLayout>

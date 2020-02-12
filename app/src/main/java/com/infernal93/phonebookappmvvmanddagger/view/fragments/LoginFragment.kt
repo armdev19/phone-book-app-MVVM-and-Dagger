@@ -1,6 +1,5 @@
 package com.infernal93.phonebookappmvvmanddagger.view.fragments
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,28 +34,19 @@ class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibility
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-        //return inflater.inflate(R.layout.fragment_login, container, false)
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         mAuthViewModel = ViewModelProviders.of(this@LoginFragment, factory).get(AuthViewModel::class.java)
 
         binding.loginViewModel = mAuthViewModel
-
-        // LoginListener
         mAuthViewModel.loginListener = this
-
         return binding.root
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         view.btn_registration.setOnClickListener(this)
-
-
-
     }
 
     override fun onClick(view: View?) {
@@ -64,7 +54,6 @@ class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibility
             R.id.btn_registration -> navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
-
 
     override fun onVisibilityChanged(isKeyboardOpen: Boolean) {
         if (isKeyboardOpen) {
@@ -90,11 +79,9 @@ class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibility
         Toast.makeText(context, getString(textResource), Toast.LENGTH_LONG).show()
     }
 
-
     override fun validateLoginAndPassword() {
         val intent = Intent(activity, ContactListActivity::class.java)
         startActivity(intent)
         activity?.finish()
     }
-
 }

@@ -7,8 +7,4 @@
         android:icon="@drawable/ic_save_btn"
         android:title="@string/save_hint"
         app:showAsAction="ifRoom"/>
-
-
-
-
 </menu>

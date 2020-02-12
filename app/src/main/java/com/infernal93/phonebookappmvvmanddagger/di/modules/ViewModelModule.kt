@@ -6,7 +6,6 @@ import com.infernal93.phonebookappmvvmanddagger.di.key.ViewModelKey
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.*
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
 
 /**
@@ -41,8 +40,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(value = UpdateDataViewModel::class)
-    abstract fun bindUpdateDataViewModel(updateDataViewModel: UpdateDataViewModel) : ViewModel
+    @ViewModelKey(value = EditContactViewModel::class)
+    abstract fun bindEditContactViewModel(editContactViewModel: EditContactViewModel) : ViewModel
 
     }
 

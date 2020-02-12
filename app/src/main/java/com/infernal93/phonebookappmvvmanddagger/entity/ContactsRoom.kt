@@ -13,24 +13,17 @@ import java.io.Serializable
 data class ContactsRoom(
     @PrimaryKey(autoGenerate = true)
     var priority: Int? = null,
-
     @ColumnInfo(name = "Id")
     var _id: String = "",
-
     @ColumnInfo(name = "FirstName")
     var firstName : String? = null,
-
     @ColumnInfo(name = "LastName")
     var lastName : String? = null,
-
     @ColumnInfo(name = "Phone")
     var phone : String? = null,
-
     @ColumnInfo(name = "Email")
     var email : String? = null,
-
     @ColumnInfo(name = "Notes")
     var notes : String? = null,
-
     @ColumnInfo(name = "Images")
     var images: String? = "") : Serializable

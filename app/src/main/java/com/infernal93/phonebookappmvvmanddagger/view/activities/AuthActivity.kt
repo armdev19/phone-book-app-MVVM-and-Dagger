@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityAuthBinding
-import com.infernal93.phonebookappmvvmanddagger.view.fragments.LoginFragment
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.AuthViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class AuthActivity : DaggerAppCompatActivity() {
-    private val TAG = "AuthActivity"
 
     private lateinit var mAuthBinding: ActivityAuthBinding
 

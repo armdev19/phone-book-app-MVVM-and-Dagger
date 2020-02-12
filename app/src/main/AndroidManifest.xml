@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activities.UpdateDataActivity"></activity>
+        <activity android:name=".view.activities.EditContactActivity"></activity>
         <activity
             android:name=".view.activities.AuthActivity"
             android:screenOrientation="portrait"

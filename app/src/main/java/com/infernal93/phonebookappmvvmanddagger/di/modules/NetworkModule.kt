@@ -19,7 +19,6 @@ import javax.inject.Singleton
  * Created by Armen Mkhitaryan on 09.01.2020.
  */
 
-//@Module(includes = [ViewModelModule::class])
 @Module
 class NetworkModule {
 
@@ -38,7 +37,6 @@ class NetworkModule {
                 val original = chain.request()
                 val originalHttpUrl = original.url
                 val url = originalHttpUrl.newBuilder()
-                    //.addQueryParameter("apikey", KEY)
                     .build()
                 val requestBuilder = original.newBuilder()
                     .url(url)
@@ -47,7 +45,6 @@ class NetworkModule {
                 return chain.proceed(request)
             }
         })
-        // logging interceptor
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         httpClient.addInterceptor(logging)
@@ -57,7 +54,6 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -78,14 +74,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseAuth() : FirebaseAuth {
+    fun provideFireBaseAuth() : FirebaseAuth {
         return FirebaseAuth.getInstance()
     }
 
     @Provides
     @Singleton
-    fun provideCurrentUser(firebaseAuth: FirebaseAuth): FirebaseUser? {
-        return firebaseAuth.currentUser
+    fun provideCurrentUser(fireBaseAuth: FirebaseAuth): FirebaseUser? {
+        return fireBaseAuth.currentUser
     }
 
 

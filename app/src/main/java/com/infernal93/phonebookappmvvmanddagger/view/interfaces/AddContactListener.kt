@@ -5,7 +5,5 @@ package com.infernal93.phonebookappmvvmanddagger.view.interfaces
  */
 interface AddContactListener {
 
-    //fun getGalleryImage()
     fun showError(textResource: Int)
-    fun savePlaceholder()
 }
