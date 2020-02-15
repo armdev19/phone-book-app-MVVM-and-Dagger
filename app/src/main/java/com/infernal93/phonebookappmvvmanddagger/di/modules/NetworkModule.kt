@@ -83,7 +83,4 @@ class NetworkModule {
     fun provideCurrentUser(fireBaseAuth: FirebaseAuth): FirebaseUser? {
         return fireBaseAuth.currentUser
     }
-
-
-
 }

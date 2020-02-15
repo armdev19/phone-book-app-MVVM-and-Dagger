@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'androidx.navigation.safeargs'
+
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -112,8 +113,5 @@ android {
 
         // ImageResponse Cropper
         api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-
-        // Keyboard visibility
-        implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     }
 }

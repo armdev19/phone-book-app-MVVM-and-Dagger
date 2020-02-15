@@ -9,18 +9,19 @@ import javax.inject.Inject
 /**
  * Created by Armen Mkhitaryan on 08.02.2020.
  */
-class DetailsViewModel @Inject constructor(private val apiRepository: ApiRepository,
-                                           private val roomRepository: RoomRepository): ViewModel() {
+class DetailsViewModel @Inject constructor(
+    private val apiRepository: ApiRepository,
+    private val roomRepository: RoomRepository) : ViewModel() {
 
-    fun deleteContact(id: String){
+    fun deleteContact(id: String) {
         apiRepository.deleteContact(id)
     }
 
-    fun deleteImage(id: String?){
+    fun deleteImage(id: String?) {
         apiRepository.deleteImage(id)
     }
 
-    fun delete(contactsRoom: ContactsRoom){
+    fun deleteRoom(contactsRoom: ContactsRoom) {
         roomRepository.delete(contactsRoom)
     }
 }

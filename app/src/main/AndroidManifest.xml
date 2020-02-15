@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.infernal93.phonebookappmvvmanddagger">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,12 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activities.EditContactActivity"></activity>
-        <activity
-            android:name=".view.activities.AuthActivity"
+
+        <activity android:name=".view.activities.EditContactActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".view.activities.AuthActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Fullscreen"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:theme="@style/AppTheme.Fullscreen">
+
+        </activity>
         <activity
             android:name=".view.activities.AddContactActivity"
             android:parentActivityName=".view.activities.ContactListActivity"

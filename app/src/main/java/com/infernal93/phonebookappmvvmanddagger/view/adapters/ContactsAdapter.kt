@@ -57,7 +57,7 @@ class ContactsAdapter (private val context: Context, private val mContactsList: 
 
         fun bind(contactsModel: ContactsRoom) {
 
-            if (contactsModel.images.isNullOrEmpty()) {
+            if (contactsModel.images.isEmpty()) {
                 mContactIcon.setImageResource(R.drawable.ic_person_placeholder)
             } else {
                 Picasso.with(itemView.context).load(contactsModel.images)

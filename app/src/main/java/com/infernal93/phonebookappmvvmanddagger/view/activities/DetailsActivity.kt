@@ -2,7 +2,6 @@ package com.infernal93.phonebookappmvvmanddagger.view.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -18,36 +17,36 @@ import javax.inject.Inject
 
 class DetailsActivity : DaggerAppCompatActivity() {
 
-    private lateinit  var toolbar: Toolbar
+    private lateinit  var mToolbar: Toolbar
     private lateinit var mDetailsBinding: ActivityDetailsBinding
-    lateinit var  clickedContactsRoom: ContactsRoom
+    lateinit var  mClickedContactsRoom: ContactsRoom
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
-    lateinit var detailsViewModel: DetailsViewModel
+    lateinit var mFactory: ViewModelProvider.Factory
+    lateinit var mDetailsViewModel: DetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mDetailsBinding = DataBindingUtil.setContentView(this@DetailsActivity, R.layout.activity_details)
 
-        detailsViewModel = ViewModelProviders.of(this@DetailsActivity, factory).get(DetailsViewModel::class.java)
+        mDetailsViewModel = ViewModelProviders.of(this@DetailsActivity, mFactory).get(DetailsViewModel::class.java)
 
-        mDetailsBinding.detailsViewModel = detailsViewModel
+        mDetailsBinding.detailsViewModel = mDetailsViewModel
 
-        toolbar = findViewById(R.id.toolbar_details_info)
-        setSupportActionBar(toolbar)
+        mToolbar = findViewById(R.id.toolbar_details_info)
+        setSupportActionBar(mToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-        toolbar.title = getString(R.string.details_toolbar_title)
+        mToolbar.title = getString(R.string.details_toolbar_title)
 
-        toolbar.setNavigationOnClickListener{
+        mToolbar.setNavigationOnClickListener{
             onBackPressed()
             overridePendingTransition(0, 0)
         }
 
-        clickedContactsRoom = intent.getSerializableExtra("contact")
+        mClickedContactsRoom = intent.getSerializableExtra("contact")
                 as ContactsRoom
 
         edit_button.setOnClickListener {
@@ -62,45 +61,46 @@ class DetailsActivity : DaggerAppCompatActivity() {
     }
 
     private fun getDetailInfoContact() {
-        details_first_name.text = clickedContactsRoom.firstName
-        details_last_name.text = clickedContactsRoom.lastName
-        details_phone.text = clickedContactsRoom.phone
-        details_email.text = clickedContactsRoom.email
-        details_notes.text = clickedContactsRoom.notes
+        details_first_name.text = mClickedContactsRoom.firstName
+        details_last_name.text = mClickedContactsRoom.lastName
+        details_phone.text = mClickedContactsRoom.phone
+        details_email.text = mClickedContactsRoom.email
+        details_notes.text = mClickedContactsRoom.notes
 
-        if (clickedContactsRoom.images.isNullOrEmpty()) {
+        if (mClickedContactsRoom.images.isNullOrEmpty()) {
             details_image.setImageResource(R.drawable.ic_person_placeholder)
         } else {
-            Picasso.with(this@DetailsActivity).load(clickedContactsRoom.images)
+            Picasso.with(this@DetailsActivity).load(mClickedContactsRoom.images)
             .placeholder(R.drawable.ic_person_placeholder)
             .into(details_image)
         }
     }
 
     private fun deleteContact(){
-        var id: String? = ""
+        var mId: String? = ""
 
-        if (!clickedContactsRoom.images.isNullOrEmpty()) {
-            id = clickedContactsRoom.images?.substringAfterLast(delimiter = "/")
+        if (mClickedContactsRoom.images.isNotEmpty()) {
+            mId = mClickedContactsRoom.images.substringAfterLast(delimiter = "/")
         }
 
-        if (id.isNullOrEmpty()) {
-            detailsViewModel.delete(clickedContactsRoom)
-            detailsViewModel.deleteContact(clickedContactsRoom._id)
+        if (mId.isNullOrEmpty()) {
+            mDetailsViewModel.deleteRoom(mClickedContactsRoom)
+            mDetailsViewModel.deleteContact(mClickedContactsRoom._id)
             finish()
         } else {
-            detailsViewModel.delete(clickedContactsRoom)
-            detailsViewModel.deleteImage(id)
-            detailsViewModel.deleteContact(clickedContactsRoom._id)
+            mDetailsViewModel.deleteRoom(mClickedContactsRoom)
+            mDetailsViewModel.deleteImage(mId)
+            mDetailsViewModel.deleteContact(mClickedContactsRoom._id)
             finish()
         }
     }
 
     private fun sendToEditContactActivity(){
         val intent = Intent(this@DetailsActivity, EditContactActivity::class.java)
-        intent.putExtra("updateData", clickedContactsRoom)
+        intent.putExtra("updateData", mClickedContactsRoom)
         intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
         startActivity(intent)
+        finish()
     }
 
     override fun onBackPressed() {

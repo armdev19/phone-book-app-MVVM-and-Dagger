@@ -2,6 +2,8 @@ package com.infernal93.phonebookappmvvmanddagger.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,48 +20,39 @@ import com.infernal93.phonebookappmvvmanddagger.viewmodels.AuthViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import javax.inject.Inject
 
+class LoginFragment : DaggerFragment(), View.OnClickListener, TextWatcher, LoginListener {
 
-class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibilityEventListener,
-    LoginListener {
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentLoginBinding
+    private lateinit var mNavController: NavController
+    lateinit var mBinding: FragmentLoginBinding
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    lateinit var mFactory: ViewModelProvider.Factory
     lateinit var mAuthViewModel: AuthViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        mBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        mAuthViewModel = ViewModelProviders.of(this@LoginFragment, factory).get(AuthViewModel::class.java)
+        mAuthViewModel = ViewModelProviders.of(this@LoginFragment, mFactory).get(AuthViewModel::class.java)
 
-        binding.loginViewModel = mAuthViewModel
-        mAuthViewModel.loginListener = this
-        return binding.root
+        mBinding.loginViewModel = mAuthViewModel
+        mAuthViewModel.mLoginListener = this
+        return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = Navigation.findNavController(view)
+        mNavController = Navigation.findNavController(view)
         view.btn_registration.setOnClickListener(this)
+        login_email.addTextChangedListener(this)
+        login_password.addTextChangedListener(this)
     }
 
     override fun onClick(view: View?) {
-        when(view!!.id) {
-            R.id.btn_registration -> navController.navigate(R.id.action_loginFragment_to_registerFragment)
-        }
-    }
-
-    override fun onVisibilityChanged(isKeyboardOpen: Boolean) {
-        if (isKeyboardOpen) {
-            root_scroll_view.scrollTo(0, root_scroll_view.bottom)
-        } else {
-            root_scroll_view.scrollTo(0, root_scroll_view.top)
+        when(view?.id) {
+            R.id.btn_registration -> mNavController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 
@@ -79,9 +72,23 @@ class LoginFragment : DaggerFragment(), View.OnClickListener, KeyboardVisibility
         Toast.makeText(context, getString(textResource), Toast.LENGTH_LONG).show()
     }
 
+    override fun showError(textResource: String) {
+        Toast.makeText(context, textResource, Toast.LENGTH_LONG).show()
+    }
+
     override fun validateLoginAndPassword() {
         val intent = Intent(activity, ContactListActivity::class.java)
         startActivity(intent)
         activity?.finish()
     }
+
+    override fun afterTextChanged(p0: Editable?) {
+        btn_login_enter.isEnabled =
+            login_email.text.toString().isNotEmpty() &&
+            login_password.text.toString().isNotEmpty()
+    }
+
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 }

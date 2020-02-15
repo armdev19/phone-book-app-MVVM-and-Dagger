@@ -16,13 +16,6 @@
         android:focusableInTouchMode="true"
         tools:context=".view.fragments.LoginFragment">
 
-        <ScrollView
-            android:id="@+id/root_scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="none">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +82,8 @@
                     android:layout_below="@id/cpv_login"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_buttons"
+                    android:background="@drawable/bg_login_button"
+                    android:enabled="false"
                     android:text="@string/login_btn_text"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -110,7 +104,6 @@
                     android:textSize="@dimen/login_btns_text_size" />
             </RelativeLayout>
 
-        </ScrollView>
     </FrameLayout>
 </layout>
 

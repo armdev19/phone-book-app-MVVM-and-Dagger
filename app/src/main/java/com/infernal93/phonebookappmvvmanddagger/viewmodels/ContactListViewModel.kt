@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.repository.RoomRepository
+import com.infernal93.phonebookappmvvmanddagger.view.interfaces.ErrorListener
 import javax.inject.Inject
 
 /**
@@ -15,11 +16,13 @@ class ContactListViewModel @Inject constructor(private val roomRepository: RoomR
 
     private lateinit var mAuth: FirebaseAuth
 
-    fun insertAll() {
+    var mErrorListener: ErrorListener? = null
+
+    fun insertAllRoom() {
         roomRepository.insertAll()
     }
 
-    fun deleteAll() {
+    fun deleteAllRoom() {
         roomRepository.deleteAll()
     }
 

@@ -7,5 +7,6 @@ interface LoginListener {
     fun startLoading()
     fun endLoading()
     fun showError(textResource: Int)
+    fun showError(textResource: String)
     fun validateLoginAndPassword()
 }

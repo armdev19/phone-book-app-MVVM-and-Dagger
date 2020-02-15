@@ -15,7 +15,7 @@ class AuthActivity : DaggerAppCompatActivity() {
     private lateinit var mAuthBinding: ActivityAuthBinding
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    lateinit var mFactory: ViewModelProvider.Factory
     lateinit var mAuthViewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class AuthActivity : DaggerAppCompatActivity() {
 
         mAuthBinding = DataBindingUtil.setContentView(this@AuthActivity, R.layout.activity_auth)
 
-        mAuthViewModel = ViewModelProviders.of(this@AuthActivity, factory).get(AuthViewModel::class.java)
+        mAuthViewModel = ViewModelProviders.of(this@AuthActivity, mFactory).get(AuthViewModel::class.java)
 
     }
 

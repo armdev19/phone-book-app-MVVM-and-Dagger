@@ -16,32 +16,34 @@ class AuthViewModel @Inject constructor(private var mAuth: FirebaseAuth) : ViewM
 
     var mEmail: String = ""
     var mPassword: String = ""
-    var loginListener: LoginListener? = null
+    var mLoginListener: LoginListener? = null
 
     fun login(view: View) {
 
-        if (mEmail.trim().isEmpty()) {
-            loginListener?.showError(textResource = R.string.login_is_empty)
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            loginListener?.showError(textResource = R.string.login_invalid)
-        }
-        else if (mPassword.trim().isEmpty()) {
-            loginListener?.showError(textResource = R.string.password_is_empty)
-        }
-        else if (mPassword.length < 8) {
-            loginListener?.showError(textResource = R.string.password_invalid)
-        }
-        else if (mEmail.isNotEmpty() && mPassword.isNotEmpty()) {
-            mAuth = FirebaseAuth.getInstance()
-            loginListener?.startLoading()
-            mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    loginListener?.endLoading()
-                    loginListener?.validateLoginAndPassword()
-                } else {
-                    loginListener?.endLoading()
-                    loginListener?.showError(textResource = R.string.no_internet)
+        when {
+            mEmail.trim().isEmpty() -> {
+                mLoginListener?.showError(textResource = R.string.login_is_empty)
+            }
+            !Patterns.EMAIL_ADDRESS.matcher(mEmail).matches() -> {
+                mLoginListener?.showError(textResource = R.string.login_invalid)
+            }
+            mPassword.trim().isEmpty() -> {
+                mLoginListener?.showError(textResource = R.string.password_is_empty)
+            }
+            mPassword.length < 8 -> {
+                mLoginListener?.showError(textResource = R.string.password_invalid)
+            }
+            mEmail.isNotEmpty() && mPassword.isNotEmpty() -> {
+                mAuth = FirebaseAuth.getInstance()
+                mLoginListener?.startLoading()
+                mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        mLoginListener?.endLoading()
+                        mLoginListener?.validateLoginAndPassword()
+                    } else {
+                        mLoginListener?.endLoading()
+                        mLoginListener?.showError(textResource = it.exception.toString())
+                    }
                 }
             }
         }

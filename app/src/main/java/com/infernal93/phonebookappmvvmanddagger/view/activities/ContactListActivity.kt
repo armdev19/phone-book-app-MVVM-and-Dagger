@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,19 +17,21 @@ import com.infernal93.phonebookappmvvmanddagger.view.adapters.ContactsAdapter
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityContactListBinding
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
+import com.infernal93.phonebookappmvvmanddagger.utils.longToast
+import com.infernal93.phonebookappmvvmanddagger.view.interfaces.ErrorListener
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class ContactListActivity : DaggerAppCompatActivity() {
+class ContactListActivity : DaggerAppCompatActivity(), ErrorListener {
 
     private lateinit var mContactListBinding: ActivityContactListBinding
     private lateinit var mAdapter: ContactsAdapter
     private lateinit var mAuth: FirebaseAuth
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
-    lateinit var contactListViewModel: ContactListViewModel
+    lateinit var mFactory: ViewModelProvider.Factory
+    lateinit var mContactListViewModel: ContactListViewModel
 
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +49,10 @@ class ContactListActivity : DaggerAppCompatActivity() {
             startActivity(intent)
         }
 
-        contactListViewModel = ViewModelProviders.of(this@ContactListActivity, factory).get(ContactListViewModel::class.java)
+        mContactListViewModel = ViewModelProviders.of(this@ContactListActivity, mFactory).get(ContactListViewModel::class.java)
 
-        contactListViewModel.deleteAll()
-        contactListViewModel.insertAll()
+        mContactListViewModel.deleteAllRoom()
+        mContactListViewModel.insertAllRoom()
 
         mContactListBinding.recyclerContacts.layoutManager =
             LinearLayoutManager(applicationContext, OrientationHelper.VERTICAL, false)
@@ -59,7 +62,7 @@ class ContactListActivity : DaggerAppCompatActivity() {
 
         mContactListBinding.recyclerContacts.adapter = mAdapter
 
-        contactListViewModel.getAllContacts().observe(this@ContactListActivity, Observer {
+        mContactListViewModel.getAllContacts().observe(this@ContactListActivity, Observer {
 
            mAdapter.setupContacts(it as ArrayList<ContactsRoom>)
 
@@ -74,7 +77,7 @@ class ContactListActivity : DaggerAppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_log_out) {
-            contactListViewModel.logOut()
+            mContactListViewModel.logOut()
             startActivity(Intent(this@ContactListActivity, AuthActivity::class.java))
             finish()
         }
@@ -85,9 +88,17 @@ class ContactListActivity : DaggerAppCompatActivity() {
         super.onStart()
 
         if (mAuth.currentUser == null) {
-            contactListViewModel.logOut()
+            mContactListViewModel.logOut()
             startActivity(Intent(this@ContactListActivity, AuthActivity::class.java))
             finish()
         }
+    }
+
+    override fun showMessage(textResource: String) {
+        Toast.makeText(this, textResource, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showError(textResource: Int) {
+
     }
 }

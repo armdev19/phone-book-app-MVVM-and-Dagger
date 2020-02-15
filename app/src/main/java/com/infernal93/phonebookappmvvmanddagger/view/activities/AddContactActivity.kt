@@ -24,14 +24,12 @@ import javax.inject.Inject
 class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
 
     private lateinit var mAddContactBinding: ActivityAddContactBinding
-    private var imageForDB: String? = null
-    private  var toPath: String? = null
-
-    companion object { const val EXTRA_IMAGE = 1 }
+    private var mImageForDB: String? = null
+    private  var mPath: String = ""
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
-    lateinit var addContactListViewModel: AddContactViewModel
+    lateinit var mFactory: ViewModelProvider.Factory
+    lateinit var mAddContactListViewModel: AddContactViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,58 +39,47 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
         setSupportActionBar(mAddContactBinding.toolbarAddContact)
         mAddContactBinding.toolbarAddContact.title = getString(R.string.add_contact_title)
 
-        mAddContactBinding.addContactImage.setOnClickListener {
-            getGalleryImage()
-        }
 
-        add_contact_image.setOnClickListener {
-            getGalleryImage()
-        }
+       add_contact_image.setOnClickListener {
+           getImage()
+       }
 
-        addContactListViewModel = ViewModelProviders.of(this@AddContactActivity, factory)
+        mAddContactListViewModel = ViewModelProviders.of(this@AddContactActivity, mFactory)
             .get(AddContactViewModel::class.java)
 
-        mAddContactBinding.addContactViewModel = addContactListViewModel
-        addContactListViewModel.mAddContactListener = this
+        mAddContactBinding.addContactViewModel = mAddContactListViewModel
+        mAddContactListViewModel.mAddContactListener = this
+    }
+
+    private fun getImage() {
+        CropImage.activity()
+            .setAspectRatio(1, 1)
+            .start(this@AddContactActivity)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == EXTRA_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
-            val imageUri = data.data
-
-            CropImage.activity(imageUri)
-                .setAspectRatio(1, 1)
-                .start(this@AddContactActivity)
-        }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-            val result = CropImage.getActivityResult(data)
+            val mResult = CropImage.getActivityResult(data)
 
             if (resultCode == Activity.RESULT_OK) {
+                val mImageUri = mResult.uri
 
-                val resultUri = result.uri
-                imageForDB = resultUri.toString()
+                mImageForDB = mImageUri.toString()
 
-                if (imageForDB == null) {
-                    imageForDB = R.drawable.ic_person_placeholder.toString()
-                } else {
-                    addContactListViewModel.uploadImageForDb(imageForDB!!)
+                if (mImageForDB == null) {
+                    mImageForDB = R.drawable.ic_person_placeholder.toString()
+                }  else {
+                    mAddContactListViewModel.uploadImageForDb(mImageForDB!!)
                 }
 
-                 toPath = result.uri.path
+                mPath = mImageUri.path!!
 
-                mAddContactBinding.addContactImage.setImageURI(resultUri)
+                add_contact_image.setImageURI(mImageUri)
                 super.onActivityResult(requestCode, resultCode, data)
             }
         }
-    }
-
-    private fun getGalleryImage() {
-        val galleryIntent = Intent()
-        galleryIntent.action = Intent.ACTION_GET_CONTENT
-        galleryIntent.type = "image/*"
-        startActivityForResult(galleryIntent, EXTRA_IMAGE)
     }
 
     override fun showError(textResource: Int) {
@@ -109,24 +96,33 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
         return when (item.itemId) {
             R.id.save_contact -> {
 
-                if (add_contact_firstName.text.trim().isEmpty()) {
-                    longToast(R.string.empty_name)
-                } else if (add_contact_lastName.text.trim().isEmpty()) {
-                    longToast(R.string.empty_last_name)
-                } else if (add_contact_phone.text.trim().isEmpty()) {
-                    longToast(R.string.empty_phone)
-                } else if (add_contact_phone.text.length < 12) {
-                    longToast(R.string.phone_invalid)
-                } else if (add_contact_email.text.trim().isEmpty()) {
-                    longToast(R.string.empty_email)
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(add_contact_email.text).matches()) {
-                    longToast(R.string.email_invalid)
-                } else if (toPath == null) {
-                    addContactListViewModel.saveContact()
-                    finish()
-                } else {
-                    addContactListViewModel.saveImageAndContact(toPath)
-                    finish()
+                when {
+                    add_contact_firstName.text.trim().isEmpty() -> {
+                        longToast(R.string.empty_name)
+                    }
+                    add_contact_lastName.text.trim().isEmpty() -> {
+                        longToast(R.string.empty_last_name)
+                    }
+                    add_contact_phone.text.trim().isEmpty() -> {
+                        longToast(R.string.empty_phone)
+                    }
+                    add_contact_phone.text.length != 12 -> {
+                        longToast(R.string.phone_invalid)
+                    }
+                    add_contact_email.text.trim().isEmpty() -> {
+                        longToast(R.string.empty_email)
+                    }
+                    !Patterns.EMAIL_ADDRESS.matcher(add_contact_email.text).matches() -> {
+                        longToast(R.string.email_invalid)
+                    }
+                    mPath.isEmpty() -> {
+                        mAddContactListViewModel.saveContact()
+                        finish()
+                    }
+                    else -> {
+                        mAddContactListViewModel.saveImageAndContact(mPath)
+                        finish()
+                    }
                 }
                 return true
             }

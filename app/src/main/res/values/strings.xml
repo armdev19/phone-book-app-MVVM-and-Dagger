@@ -46,6 +46,14 @@
     <string name="save_new_data_btn_text">Save new data</string>
     <string name="test_login_txt">Login: test1@gmail.com</string>
     <string name="test_password_txt">Password: 12345678</string>
+    <string name="data_to_update_empty">Is no data to update</string>
+    <string name="inner_contact_name_hint">Василий</string>
+    <string name="inner_contact_phone_hint">+37493055062</string>
+    <string name="details_first_name_hint">First Name</string>
+    <string name="details_last_name_hint">Last Name</string>
+    <string name="details_phone_hint">+37493055062</string>
+    <string name="details_email_hint">test@gmail.com</string>
+    <string name="details_notes_hint">Notes Hint</string>
 
 
 </resources>

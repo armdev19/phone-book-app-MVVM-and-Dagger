@@ -3,7 +3,6 @@ package com.infernal93.phonebookappmvvmanddagger.data.remote
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import io.reactivex.Single
-import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -28,6 +27,16 @@ interface ContactsService {
         @Field(value = "lastName") lastName: String,
         @Field(value = "phone") phone: String,
         @Field(value = "email") email: String,
+        @Field(value = "notes") notes: String): Single<ContactsApi>
+
+    @FormUrlEncoded
+    @PUT(value = "rest/contacts/{id}")
+    fun updateContactAndImage(
+        @Path(value = "id") id: String,
+        @Field(value = "firstName") firstName: String,
+        @Field(value = "lastName") lastName: String,
+        @Field(value = "phone") phone: String,
+        @Field(value = "email") email: String,
         @Field(value = "notes") notes: String,
-        @Field(value = "images") images: String): Call<ContactsApi>
+        @Field(value = "images") images: String): Single<ContactsApi>
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityEditContactBinding
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
+import com.infernal93.phonebookappmvvmanddagger.utils.longToast
 import com.infernal93.phonebookappmvvmanddagger.view.interfaces.EditContactListener
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.EditContactViewModel
 import com.squareup.picasso.Picasso
@@ -21,122 +22,128 @@ import javax.inject.Inject
 class EditContactActivity : DaggerAppCompatActivity(), EditContactListener {
 
     private lateinit var mEditContactBinding: ActivityEditContactBinding
+    lateinit var  mOldDataContactsRoom: ContactsRoom
+    private var mImageForDB: String = ""
+    private  var mPath: String = ""
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    lateinit var mFactory: ViewModelProvider.Factory
     lateinit var mUpdateViewModel: EditContactViewModel
-
-    lateinit var  oldDataContactsRoom: ContactsRoom
-
-    companion object { const val EXTRA_IMAGE = 1 }
-    private var imageForDB: String? = null
-
-    private  var toPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mEditContactBinding = DataBindingUtil.setContentView(this@EditContactActivity, R.layout.activity_edit_contact)
 
-        mUpdateViewModel = ViewModelProviders.of(this@EditContactActivity, factory).get(EditContactViewModel::class.java)
+        mUpdateViewModel = ViewModelProviders.of(this@EditContactActivity, mFactory).get(EditContactViewModel::class.java)
 
         mEditContactBinding.updateDataVieModel = mUpdateViewModel
         mUpdateViewModel.mEditContactListener = this
 
 
         save_newData_btn.setOnClickListener {
-            update()
-            sendToContactListActivity()
+            updateContact()
         }
 
         new_image.setOnClickListener {
-            getGalleryImage()
+            getImage()
         }
 
-        oldDataContactsRoom = intent.getSerializableExtra("updateData")
+        mOldDataContactsRoom = intent.getSerializableExtra("updateData")
                 as ContactsRoom
 
         showOldData()
     }
 
+    private fun getImage() {
+        CropImage.activity()
+            .setAspectRatio(1, 1)
+            .start(this@EditContactActivity)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == EXTRA_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
-            val imageUri = data.data
-
-            CropImage.activity(imageUri)
-                .setAspectRatio(1, 1)
-                .start(this@EditContactActivity)
-        }
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-            val result = CropImage.getActivityResult(data)
+            val mResult = CropImage.getActivityResult(data)
 
             if (resultCode == Activity.RESULT_OK) {
+                val mImageUri = mResult.uri
 
-                val resultUri = result.uri
-                imageForDB = resultUri.toString()
-
-                if (imageForDB == null) {
-                    imageForDB = R.drawable.ic_person_placeholder.toString()
-                } else {
-                    mUpdateViewModel.uploadImageForDb(imageForDB!!)
-                }
-
-                toPath = result.uri.path
-
-                mEditContactBinding.newImage.setImageURI(resultUri)
+                mImageForDB = mImageUri.toString()
+                mPath = mResult.uri.path.toString()
+                mEditContactBinding.newImage.setImageURI(mImageUri)
             }
         }
     }
 
-    private fun getGalleryImage() {
-        val galleryIntent = Intent()
-        galleryIntent.action = Intent.ACTION_GET_CONTENT
-        galleryIntent.type = "image/*"
-        startActivityForResult(galleryIntent, EXTRA_IMAGE)
-    }
-
     private fun showOldData(){
-        new_firstName.hint = oldDataContactsRoom.firstName
-        new_lastName.hint =oldDataContactsRoom.lastName
-        new_phone.hint = oldDataContactsRoom.phone
-        new_email.hint = oldDataContactsRoom.email
-        new_notes.hint = oldDataContactsRoom.notes
+        new_firstName.hint = mOldDataContactsRoom.firstName
+        new_lastName.hint =mOldDataContactsRoom.lastName
+        new_phone.hint = mOldDataContactsRoom.phone
+        new_email.hint = mOldDataContactsRoom.email
+        new_notes.hint = mOldDataContactsRoom.notes
 
-        if (oldDataContactsRoom.images.isNullOrEmpty()) {
+        mUpdateViewModel.getOldData(name = mOldDataContactsRoom.firstName,
+            lastName = mOldDataContactsRoom.lastName,
+            phone = mOldDataContactsRoom.phone,
+            email = mOldDataContactsRoom.email,
+            notes = mOldDataContactsRoom.notes)
+
+        if (mOldDataContactsRoom.images.isEmpty()) {
             new_image.setImageResource(R.drawable.ic_person_placeholder)
         } else {
-            Picasso.with(this@EditContactActivity).load(oldDataContactsRoom.images)
+            Picasso.with(this@EditContactActivity).load(mOldDataContactsRoom.images)
                 .placeholder(R.drawable.ic_person_placeholder)
                 .into(new_image)
         }
-    }
-
-    private fun sendToContactListActivity(){
-        startActivity(Intent(this, ContactListActivity::class.java))
     }
 
     override fun showError(textResource: Int) {
         Toast.makeText(this@EditContactActivity, getString(textResource), Toast.LENGTH_LONG).show()
     }
 
-    private fun update(){
-        if (toPath == null) {
-            toPath = R.drawable.ic_person_placeholder.toString()
+    private fun updateContact(){
+        if(new_firstName.text.toString() == mOldDataContactsRoom.firstName &&
+                new_lastName.text.toString() == mOldDataContactsRoom.lastName &&
+                new_phone.text.toString() == mOldDataContactsRoom.phone &&
+                new_email.text.toString() == mOldDataContactsRoom.email &&
+                new_notes.text.toString() == mOldDataContactsRoom.notes &&
+                mPath.isEmpty()) {
+            longToast(R.string.data_to_update_empty)
+        } else {
+
+            if (mEditContactBinding.newFirstName.text.isNullOrEmpty()) {
+                mEditContactBinding.newFirstName.setText(mOldDataContactsRoom.firstName)
+            } else if (mEditContactBinding.newLastName.text.isNullOrEmpty()) {
+                mEditContactBinding.newLastName.setText(mOldDataContactsRoom.lastName)
+            } else if (mEditContactBinding.newPhone.text.isNullOrEmpty()) {
+                mEditContactBinding.newPhone.setText(mOldDataContactsRoom.phone)
+            } else if (mEditContactBinding.newEmail.text.isNullOrEmpty()) {
+                mEditContactBinding.newEmail.setText(mOldDataContactsRoom.email)
+            } else if (mEditContactBinding.newNotes.text.isNullOrEmpty()) {
+                mEditContactBinding.newNotes.setText(mOldDataContactsRoom.notes)
+            } else  {
+
+                mOldDataContactsRoom.firstName = new_firstName.text.toString()
+                mOldDataContactsRoom.lastName = new_lastName.text.toString()
+                mOldDataContactsRoom.phone = new_phone.text.toString()
+                mOldDataContactsRoom.email = new_email.text.toString()
+                mOldDataContactsRoom.notes = new_notes.text.toString()
+
+                if (mImageForDB.isEmpty() && mPath.isEmpty()) {
+
+                    mUpdateViewModel.updateRoom(mOldDataContactsRoom)
+                    mUpdateViewModel.updateContact(mOldDataContactsRoom._id)
+                    onBackPressed()
+                } else {
+                    mOldDataContactsRoom.images = mImageForDB
+                    mUpdateViewModel.updateRoom(mOldDataContactsRoom)
+                    mUpdateViewModel.updateImageAndContact(mOldDataContactsRoom._id, mPath)
+                    onBackPressed()
+                }
+            }
         }
-
-        val newContactsRoom = ContactsRoom(_id = "", firstName = new_firstName.text.toString(),
-            lastName = new_lastName.text.toString(),
-            phone = new_phone.text.toString(),
-            email = new_email.text.toString(),
-            notes = new_notes.text.toString(),
-            images = imageForDB)
-
-        mUpdateViewModel.update(newContactsRoom)
-
-        mUpdateViewModel.updateContact(oldDataContactsRoom._id)
     }
 }

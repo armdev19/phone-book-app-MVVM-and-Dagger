@@ -12,8 +12,9 @@ import javax.inject.Inject
 /**
  * Created by Armen Mkhitaryan on 10.02.2020.
  */
-class EditContactViewModel @Inject constructor(private val apiRepository: ApiRepository,
-                                               private val roomRepository: RoomRepository) : ViewModel() {
+class EditContactViewModel @Inject constructor(
+    private val apiRepository: ApiRepository,
+    private val roomRepository: RoomRepository) : ViewModel() {
 
     var mFirstName: String = ""
     var mLastName: String = ""
@@ -23,15 +24,19 @@ class EditContactViewModel @Inject constructor(private val apiRepository: ApiRep
 
     var mEditContactListener: EditContactListener? = null
 
-    fun uploadImageForDb(imageForDb: String) {
-        apiRepository.NewImageDb(imageForDb)
+    fun getOldData(name: String, lastName: String, phone: String, email: String, notes: String) {
+        mFirstName = name
+        mLastName = lastName
+        mPhone = phone
+        mEmail = email
+        mNotes = notes
     }
 
-    fun update(contactsRoom: ContactsRoom) {
+    fun updateRoom(contactsRoom: ContactsRoom) {
         roomRepository.update(contactsRoom)
     }
 
-    fun updateContact(id: String) {
+    fun updateImageAndContact(id: String, toPath: String) {
 
         if (mFirstName.trim().isEmpty()) {
             mEditContactListener?.showError(textResource = R.string.empty_name)
@@ -39,7 +44,7 @@ class EditContactViewModel @Inject constructor(private val apiRepository: ApiRep
             mEditContactListener?.showError(textResource = R.string.empty_last_name)
         } else if (mPhone.trim().isEmpty()) {
             mEditContactListener?.showError(textResource = R.string.empty_phone)
-        } else if (mPhone.length < 12) {
+        } else if (mPhone.length != 12) {
             mEditContactListener?.showError(textResource = R.string.phone_invalid)
         } else if (mEmail.trim().isEmpty()) {
             mEditContactListener?.showError(textResource = R.string.empty_email)
@@ -51,14 +56,43 @@ class EditContactViewModel @Inject constructor(private val apiRepository: ApiRep
 
             val updateContactsRoom = ContactsRoom(
                 _id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
-                email = mEmail, notes = mNotes, images = apiRepository.newImageDB
-            )
+                email = mEmail, notes = mNotes, images = "")
 
+            updateRoom(updateContactsRoom)
 
-            apiRepository.updateContact(id = id, name = mFirstName, lastName = mLastName, phone = mPhone, email = mEmail,
-                notes = mNotes, images = apiRepository.newImageDB)
+            apiRepository.updateNewImageAndContact(
+                id = id, name = mFirstName, lastName = mLastName, phone = mPhone,
+                email = mEmail, notes = mNotes, images = toPath)
+        }
+    }
 
-            update(updateContactsRoom)
+    fun updateContact(id: String) {
+
+        if (mFirstName.trim().isEmpty()) {
+            mEditContactListener?.showError(textResource = R.string.empty_name)
+        } else if (mLastName.trim().isEmpty()) {
+            mEditContactListener?.showError(textResource = R.string.empty_last_name)
+        } else if (mPhone.trim().isEmpty()) {
+            mEditContactListener?.showError(textResource = R.string.empty_phone)
+        } else if (mPhone.length != 12) {
+            mEditContactListener?.showError(textResource = R.string.phone_invalid)
+        } else if (mEmail.trim().isEmpty()) {
+            mEditContactListener?.showError(textResource = R.string.empty_email)
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+            mEditContactListener?.showError(textResource = R.string.email_invalid)
+        } else if (mNotes.trim().isEmpty()) {
+            mEditContactListener?.showError(textResource = R.string.empty_notes)
+        } else {
+
+            val updateContactsRoom = ContactsRoom(
+                _id = "", firstName = mFirstName, lastName = mLastName, phone = mPhone,
+                email = mEmail, notes = mNotes, images = "")
+
+            updateRoom(updateContactsRoom)
+
+            apiRepository.updateNewContact(
+                id = id, name = mFirstName, lastName = mLastName,
+                phone = mPhone, email = mEmail, notes = mNotes)
         }
     }
 }
