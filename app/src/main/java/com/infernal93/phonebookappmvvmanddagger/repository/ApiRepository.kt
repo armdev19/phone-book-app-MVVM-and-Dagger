@@ -1,13 +1,11 @@
 package com.infernal93.phonebookappmvvmanddagger.repository
 
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ContactsService
 import com.infernal93.phonebookappmvvmanddagger.data.remote.ImagesService
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsApi
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.entity.ImageResponse
-import com.infernal93.phonebookappmvvmanddagger.view.interfaces.ErrorListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -33,8 +31,6 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
     var imageMediaId: String = ""
     var imageDB: String = ""
 
-    var mErrorListener: ErrorListener? = null
-
     fun imageDb(Image: String) {
         imageDB = Image
     }
@@ -47,12 +43,8 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
         disposable.add(contactsService.postNewContact(newContactApi)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({response -> newRoom._id = response.id
-                mErrorListener?.showMessage("Контакт обновлен")
-
-            }, {
-                throw RuntimeException("invalid response")
-            }))
+            .subscribe({response -> newRoom._id = response.id },
+                {error -> error.printStackTrace()}))
     }
 
     fun uploadNewImageAndContact(toPath: String, newContactApi: ContactsApi, newRoom: ContactsRoom) {
@@ -78,9 +70,8 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-
-                }, Throwable::printStackTrace))
+                .subscribe({response -> newRoom._id = response.id },
+                    {error -> error.printStackTrace()}))
 
     }
 
@@ -89,18 +80,16 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
         disposable.add(contactsService.deleteContact(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-            }, {
-
-            }))
+            .subscribe({},
+                {error -> error.printStackTrace()}))
     }
 
     fun deleteImage(id: String?) {
         disposable.add(imagesService.deleteImage(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({}, {}))
+            .subscribe({},
+                {error -> error.printStackTrace()}))
     }
 
     fun updateNewImageAndContact(id: String, name: String, lastName: String,
@@ -129,7 +118,8 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({}, Throwable::printStackTrace))
+            .subscribe({},
+                {error -> error.printStackTrace()}))
     }
 
     fun updateNewContact(id: String, name: String, lastName: String,
@@ -137,13 +127,9 @@ class ApiRepository @Inject constructor(private val contactsService: ContactsSer
         disposable.add(contactsService.updateContact(id, name, lastName, phone, email, notes)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-            }, {
-
-            }))
+            .subscribe({},
+                {error -> error.printStackTrace()}))
     }
-
 }
 
 

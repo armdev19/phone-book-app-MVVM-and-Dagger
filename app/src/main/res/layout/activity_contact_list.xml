@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:focusableInTouchMode="true">
 
     <data>
@@ -33,7 +34,8 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_add_new_contact"
             android:background="@drawable/bg_floating_btn"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 </layout>

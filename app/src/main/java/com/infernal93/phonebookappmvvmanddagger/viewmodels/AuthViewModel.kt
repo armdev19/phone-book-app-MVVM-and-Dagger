@@ -1,7 +1,6 @@
 package com.infernal93.phonebookappmvvmanddagger.viewmodels
 
 import android.util.Patterns
-import android.view.View
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.infernal93.phonebookappmvvmanddagger.R
@@ -14,12 +13,12 @@ import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(private var mAuth: FirebaseAuth) : ViewModel() {
 
+    var mLoginListener: LoginListener? = null
     var mEmail: String = ""
     var mPassword: String = ""
-    var mLoginListener: LoginListener? = null
 
-    fun login(view: View) {
 
+    fun login() {
         when {
             mEmail.trim().isEmpty() -> {
                 mLoginListener?.showError(textResource = R.string.login_is_empty)
@@ -34,7 +33,7 @@ class AuthViewModel @Inject constructor(private var mAuth: FirebaseAuth) : ViewM
                 mLoginListener?.showError(textResource = R.string.password_invalid)
             }
             mEmail.isNotEmpty() && mPassword.isNotEmpty() -> {
-                mAuth = FirebaseAuth.getInstance()
+
                 mLoginListener?.startLoading()
                 mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener {
                     if (it.isSuccessful) {

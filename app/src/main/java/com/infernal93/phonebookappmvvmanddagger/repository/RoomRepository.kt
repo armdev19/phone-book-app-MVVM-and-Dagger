@@ -6,7 +6,6 @@ import com.infernal93.phonebookappmvvmanddagger.App
 import com.infernal93.phonebookappmvvmanddagger.data.local.ContactDao
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
 import com.infernal93.phonebookappmvvmanddagger.model.ContactDatabase
-import com.infernal93.phonebookappmvvmanddagger.view.interfaces.ErrorListener
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.lang.RuntimeException
@@ -20,8 +19,6 @@ class RoomRepository @Inject constructor(app: App, private val apiRepository: Ap
 
     var contactDao: ContactDao
     private var allContacts: LiveData<List<ContactsRoom>>
-
-    var mErrorListener: ErrorListener? = null
 
     init {
         val database: ContactDatabase? = ContactDatabase.getInstance(app.applicationContext)
@@ -46,18 +43,13 @@ class RoomRepository @Inject constructor(app: App, private val apiRepository: Ap
     }
 
     fun insertAll() {
-        AsyncTask.execute{
-            val disposable = CompositeDisposable()
+        val disposable = CompositeDisposable()
             disposable.add(apiRepository.getAllContacts()
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                    {response -> contactDao.insertAll(response)
-                    },
-                    { error -> error.printStackTrace()
-                        mErrorListener?.showMessage(error.message.toString())
-                    //throw RuntimeException("invalid response")
-                    }))
-        }
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+               {response -> contactDao.insertAll(response) },
+               { error -> error.printStackTrace()}))
+
     }
 
     fun deleteAll() {

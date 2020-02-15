@@ -23,6 +23,7 @@ class AddContactViewModel @Inject constructor(
     var mEmail: String = ""
     var mNotes: String = ""
 
+
     var mAddContactListener: AddContactListener? = null
 
     fun uploadImageForDb(imageForDb: String) {
@@ -72,6 +73,8 @@ class AddContactViewModel @Inject constructor(
                 val newContactsApi = ContactsApi(
                     id = "", firstName = mFirstName, lastName = mLastName,
                     phone = mPhone, email = mEmail, notes = mNotes, images = "")
+
+
 
                 apiRepository.uploadNewContact(newContactsApi, newContactsRoom)
 

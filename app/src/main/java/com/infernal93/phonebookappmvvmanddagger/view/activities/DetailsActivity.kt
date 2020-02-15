@@ -67,7 +67,7 @@ class DetailsActivity : DaggerAppCompatActivity() {
         details_email.text = mClickedContactsRoom.email
         details_notes.text = mClickedContactsRoom.notes
 
-        if (mClickedContactsRoom.images.isNullOrEmpty()) {
+        if (mClickedContactsRoom.images.isEmpty()) {
             details_image.setImageResource(R.drawable.ic_person_placeholder)
         } else {
             Picasso.with(this@DetailsActivity).load(mClickedContactsRoom.images)

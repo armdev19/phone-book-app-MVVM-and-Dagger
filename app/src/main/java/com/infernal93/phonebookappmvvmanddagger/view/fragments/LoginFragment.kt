@@ -48,6 +48,10 @@ class LoginFragment : DaggerFragment(), View.OnClickListener, TextWatcher, Login
         view.btn_registration.setOnClickListener(this)
         login_email.addTextChangedListener(this)
         login_password.addTextChangedListener(this)
+
+        btn_login_enter.setOnClickListener {
+            mAuthViewModel.login()
+        }
     }
 
     override fun onClick(view: View?) {

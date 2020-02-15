@@ -96,33 +96,32 @@ class AddContactActivity : DaggerAppCompatActivity(), AddContactListener {
         return when (item.itemId) {
             R.id.save_contact -> {
 
-                when {
-                    add_contact_firstName.text.trim().isEmpty() -> {
-                        longToast(R.string.empty_name)
-                    }
-                    add_contact_lastName.text.trim().isEmpty() -> {
-                        longToast(R.string.empty_last_name)
-                    }
-                    add_contact_phone.text.trim().isEmpty() -> {
-                        longToast(R.string.empty_phone)
-                    }
-                    add_contact_phone.text.length != 12 -> {
-                        longToast(R.string.phone_invalid)
-                    }
-                    add_contact_email.text.trim().isEmpty() -> {
-                        longToast(R.string.empty_email)
-                    }
-                    !Patterns.EMAIL_ADDRESS.matcher(add_contact_email.text).matches() -> {
-                        longToast(R.string.email_invalid)
-                    }
-                    mPath.isEmpty() -> {
-                        mAddContactListViewModel.saveContact()
-                        finish()
-                    }
-                    else -> {
-                        mAddContactListViewModel.saveImageAndContact(mPath)
-                        finish()
-                    }
+                if (add_contact_firstName.text.trim().isEmpty()) {
+                    longToast(R.string.empty_name)
+                }
+                else if (add_contact_lastName.text.trim().isEmpty()) {
+                    longToast(R.string.empty_last_name)
+                }
+                else if (add_contact_phone.text.trim().isEmpty()) {
+                    longToast(R.string.empty_phone)
+                }
+                else if (add_contact_phone.text.length != 12) {
+                    longToast(R.string.phone_invalid)
+                }
+                else if (add_contact_email.text.trim().isEmpty()) {
+                    longToast(R.string.empty_email)
+                }
+                else if (!Patterns.EMAIL_ADDRESS.matcher(add_contact_email.text).matches()) {
+                    longToast(R.string.email_invalid)
+                } else if (add_contact_notes.text.trim().isEmpty()) {
+                    longToast(R.string.empty_notes)
+                } else if (mPath.isEmpty()) {
+                    mAddContactListViewModel.saveContact()
+                    finish()
+                }
+                else {
+                    mAddContactListViewModel.saveImageAndContact(mPath)
+                    finish()
                 }
                 return true
             }

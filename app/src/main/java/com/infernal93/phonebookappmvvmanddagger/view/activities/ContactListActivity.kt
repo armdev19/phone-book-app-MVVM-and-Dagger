@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,13 +16,11 @@ import com.infernal93.phonebookappmvvmanddagger.view.adapters.ContactsAdapter
 import com.infernal93.phonebookappmvvmanddagger.R
 import com.infernal93.phonebookappmvvmanddagger.databinding.ActivityContactListBinding
 import com.infernal93.phonebookappmvvmanddagger.entity.ContactsRoom
-import com.infernal93.phonebookappmvvmanddagger.utils.longToast
-import com.infernal93.phonebookappmvvmanddagger.view.interfaces.ErrorListener
 import com.infernal93.phonebookappmvvmanddagger.viewmodels.ContactListViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class ContactListActivity : DaggerAppCompatActivity(), ErrorListener {
+class ContactListActivity : DaggerAppCompatActivity() {
 
     private lateinit var mContactListBinding: ActivityContactListBinding
     private lateinit var mAdapter: ContactsAdapter
@@ -62,9 +59,9 @@ class ContactListActivity : DaggerAppCompatActivity(), ErrorListener {
 
         mContactListBinding.recyclerContacts.adapter = mAdapter
 
-        mContactListViewModel.getAllContacts().observe(this@ContactListActivity, Observer {
+        mContactListViewModel.getAllContacts().observe(this@ContactListActivity, Observer {contactList ->
 
-           mAdapter.setupContacts(it as ArrayList<ContactsRoom>)
+           mAdapter.setupContacts(contactList as ArrayList<ContactsRoom>)
 
            mAdapter.sortByName()
         })
@@ -92,13 +89,5 @@ class ContactListActivity : DaggerAppCompatActivity(), ErrorListener {
             startActivity(Intent(this@ContactListActivity, AuthActivity::class.java))
             finish()
         }
-    }
-
-    override fun showMessage(textResource: String) {
-        Toast.makeText(this, textResource, Toast.LENGTH_LONG).show()
-    }
-
-    override fun showError(textResource: Int) {
-
     }
 }

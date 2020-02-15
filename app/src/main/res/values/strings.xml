@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">PhoneBook app</string>
     <string name="login_welcome_text">PhoneBook app \n with MVVM</string>
-    <string name="email_text">Email...</string>
-    <string name="password_text">Password...</string>
+    <string name="email_text">Email…</string>
+    <string name="password_text">Password…</string>
     <string name="login_btn_text">Log In</string>
     <string name="registration_btn_text">Registration</string>
     <string name="log_out_hint">Log Out</string>
@@ -54,6 +54,5 @@
     <string name="details_phone_hint">+37493055062</string>
     <string name="details_email_hint">test@gmail.com</string>
     <string name="details_notes_hint">Notes Hint</string>
-
 
 </resources>
